@@ -1,2 +1,2 @@
 # realmerge-cws
-Mini version of Realmerge for Chromium-base browsers (Chrome Web Store)
+Mini version of Realmerge for Chromium-based browsers (Chrome Web Store)
