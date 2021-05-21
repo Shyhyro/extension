@@ -1,0 +1,17 @@
+body {width: 300px; height: 347px; padding: 0; background: white;}
+.popout-footer-credit {
+    bottom: 0;
+    position: fixed;
+    font-size: 10px;
+    text-align: left;
+    color: #696969; /* lol */
+    padding: 5px;
+    background: white;
+}
+.popout-box {
+    border-radius: 0;
+    box-shadow: none;
+}
+.box-title {
+    font-size: 18px;
+}
