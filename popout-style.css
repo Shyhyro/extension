@@ -1,17 +1,19 @@
-body {width: 300px; height: 347px; padding: 0; background: white;}
-.popout-footer-credit {
-    bottom: 0;
-    position: fixed;
-    font-size: 10px;
-    text-align: left;
-    color: #696969; /* lol */
-    padding: 5px;
-    background: white;
+@import url(https://realmerge.shay.cat/static/style.css);
+
+* {text-align: left}
+html {width: 280px}
+body {padding: 0}
+
+.head {
+    background: var(--modal-border-color);
+    margin: 0;
+    color: var(--headers-buttons-text);
+    padding: 10px 15px 10px 15px;
 }
-.popout-box {
-    border-radius: 0;
-    box-shadow: none;
+
+h3, p {
+    margin: 0;
+    margin-top: 15px;
 }
-.box-title {
-    font-size: 18px;
-}
+p {margin-top: 5px}
+input[type="checkbox"] {margin-left: 0}

@@ -1,24 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="https://realmerge.shay.cat/static/style.css"/>
+    <meta charset="UTF-8"/>
     <link rel="stylesheet" href="popout-style.css"/>
-    <script src="script.js"></script>
+    <script src="popout.js"></script>
 </head>
 <body>
-<div class="box popout-box" id="error-invalid-url" style="padding-bottom:20px;display:none;border:none"></div>
-<div class="box popout-box" id="error-box" style="padding-bottom:20px;display:none;border-color:red">
-    <h3 class="box-title">Error</h3>
-    <p style="margin:0" id="error-message"></p>
-</div>
-<div class="box popout-box" id="merged-image-box" style="padding-bottom:20px;display:none">
-    <h3 class="box-title" id="merged-image-title"></h3>
-    <img id="merged-image" src="">
-</div>
-<div class="popout-footer-credit">
-    <h5 style="margin:0">🔗 All images © <a href="https://deloryan.com" target="_blank">Deloryan B.V.</a></h5>
-    <h5 style="margin:0">🔗 Source on <a href="https://github.com/shayypy/realmerge" target="_blank">GitHub</a>. Realmerge © shay (shayypy)</h5>
-</div>
+    <h2 class="head">Realmerge Settings</h2>
+    <div style="padding:15px;padding-top:0px">
+        <h3>Attribution</h3>
+        <input type="checkbox" id="settings-watermark">
+        <label for="settings-watermark">Horse Reality watermark</label>
+        <p class="modal-footnote">Although not required by HR, we recommend keeping this enabled if you plan on sharing merged images.</p>
+    </div>
 </body>
 </html>
