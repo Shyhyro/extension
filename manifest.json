@@ -1,9 +1,9 @@
 {
     "name": "Realmerge",
     "description": "The mini version of Realmerge - a tool that layers files from Horse Reality.",
-    "version": "1.0",
+    "version": "2.0",
     "manifest_version": 3,
-    "permissions": ["tabs"],
+    "permissions": ["storage"],
     "action": {
         "default_popup": "popout.html",
         "default_icon": {
@@ -22,5 +22,14 @@
     "host_permissions": [
         "*://*.horsereality.com/horses/*",
         "*://*.horsereality.nl/horses/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.horsereality.com/horses/*",
+                "*://*.horsereality.nl/horses/*"
+            ],
+            "js": ["script.js"]
+        }
     ]
 }
