@@ -23,6 +23,11 @@ init();
 async function mergeImage() {
     const url = window.location.href;
     if (!hrUrlRegex.test(url)) return;
+    const mergeButton = document.querySelector('#realmerge-merge-button');
+    if (!mergeButton) return;
+
+    mergeButton.innerText = 'Merging...';
+    mergeButton.disabled = 'true';
 
     // merge the horse
     const response = await fetch('https://realmerge.shay.cat/api/merge', {
@@ -37,6 +42,7 @@ async function mergeImage() {
         alert(`Realmerge error: ${data.message}`);
         return
     }
+
     // remove the top bar, realmerge is more important :sunglasses:
     const looking_at = document.getElementsByClassName('looking_at')[0]
     if (looking_at) looking_at.remove();
@@ -59,12 +65,33 @@ async function mergeImage() {
         }
         const merged = document.createElement('img');
         merged.src = mergedUrl;
-        if (foal) merged.classList = 'realmerge-merged-result foal';
-        else merged.classList = 'realmerge-merged-result';
+        if (foal) {
+            merged.classList = 'realmerge-merged-result foal';
+        } else {
+            merged.classList = 'realmerge-merged-result';
+        }
         parent.appendChild(merged);
     }
+    const horse_photos = document.getElementsByClassName('horse_photo');
+    if (data.horse_url) {
+        replaceWithMerged(horse_photos[0], data.horse_url)
+    }
+    if (data.foal_url) {
+        replaceWithMerged(horse_photos[1], data.foal_url, foal=true)
+        document.getElementsByClassName('horse_photocon foal')[0].classList = 'horse_photocon foal realmerge-photocon';
+    }
+
+    // add a "powered by" pseudo-tab
+    const tabnav = document.getElementsByClassName('grid_12 tabnav')[0];
+    const tab_a = document.createElement('a');
+    tab_a.href = 'https://realmerge.shay.cat';
+    tab_a.target = '_blank';
+    const tab = document.createElement('div');
+    tab.classList = 'realmerge-powered-tab';
+    tab.appendChild(document.createTextNode('Merging Powered by Realmerge'));
+    tab_a.appendChild(tab);
+    tabnav.appendChild(tab_a);
 
     // remove the button, you only need to merge once silly
-    const mergeButton = document.querySelector('#realmerge-merge-button');
-    if (mergeButton) mergeButton.remove();
+    mergeButton.remove();
 }
