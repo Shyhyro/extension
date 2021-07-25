@@ -1,17 +1,19 @@
-const hrUrlRegex = /^https:\/\/(v2\.|www\.)?horsereality\.(com|nl)\/horses\/(\d{1,10})\/.*/
+const hrUrlRegex = /^https:\/\/(v2\.|www\.)?horsereality\.(com|nl)\/horses\/(\d{1,10})\/.*/;
+const realmergeDomain = 'https://realmerge.shay.cat';
+const storage = {}
 
 function init() {
     const head = document.getElementsByTagName('head')[0];
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
-    stylesheet.href = 'https://realmerge.shay.cat/static/extensions.css';
+    stylesheet.href = `${realmergeDomain}/static/extensions.css`;
     head.appendChild(stylesheet);
 
     const button = document.createElement('button');
     button.classList = 'yellow';
     button.id = 'realmerge-merge-button';
     button.title = 'with Realmerge! :)';
-    button.onclick = () => {mergeImage()};
+    button.onclick = () => {mergeImageStorageContainer()};
     const text = document.createTextNode('Merge');
     button.appendChild(text);
 
@@ -19,6 +21,16 @@ function init() {
     pane.insertBefore(button, pane.children[1]);
 }
 init();
+
+function mergeImageStorageContainer() {
+    chrome.storage.sync.get('realmergeSettings', (data) => {
+        Object.assign(storage, data.realmergeSettings);
+        if (typeof storage.watermark == 'undefined') {
+            storage.watermark = true
+        }
+        mergeImage();
+    })
+}
 
 async function mergeImage() {
     const url = window.location.href;
@@ -30,9 +42,9 @@ async function mergeImage() {
     mergeButton.disabled = 'true';
 
     // merge the horse
-    const response = await fetch('https://realmerge.shay.cat/api/merge', {
+    const response = await fetch(`${realmergeDomain}/api/merge`, {
         method: 'POST',
-        body: JSON.stringify({url: url, return_layer_urls: true}),
+        body: JSON.stringify({url: url, return_layer_urls: true, watermark: storage.watermark}),
         headers: {'Content-Type': 'application/json'}
     });
     const data = await response.json();
@@ -84,7 +96,7 @@ async function mergeImage() {
     // add a "powered by" pseudo-tab
     const tabnav = document.getElementsByClassName('grid_12 tabnav')[0];
     const tab_a = document.createElement('a');
-    tab_a.href = 'https://realmerge.shay.cat';
+    tab_a.href = realmergeDomain;
     tab_a.target = '_blank';
     const tab = document.createElement('div');
     tab.classList = 'realmerge-powered-tab';
