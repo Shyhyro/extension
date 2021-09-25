@@ -11,6 +11,6 @@ Mini version of Realtools for Chromium-based and Firefox-based browsers.
 
 # Demonstration
 
-![demonstration](https://i.imgur.com/X6BMNj5.gif)
+[Demonstration GIF](https://i.imgur.com/X6BMNj5.gif)
 
 A demonstration on Firefox 93
