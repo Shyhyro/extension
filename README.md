@@ -1,19 +1,16 @@
-# Realmerge CWS
+# Realtools Extension
 
-Mini version of Realmerge for Chromium-based browsers (Chrome Web Store).
+Mini version of Realtools for Chromium-based and Firefox-based browsers.
 
 # Links
 
-* [Chrome Web Store page](https://realmerge.shay.cat/chrome)
-* [Full Realmerge](https://realmerge.shay.cat)
-* [Full Realmerge's repo](https://github.com/shayypy/realmerge)
-
-# Releases
-
-Chromium-compatible extensions can be loaded with just a folder containing the extension's contents, so I don't attach a `.crx` file (or whatever) to releases. Just download the source `.zip` and unzip it.
+* [Chrome Web Store page](https://realtools.shay.cat/chrome)
+* [addons.mozilla.org page](https://realtools.shay.cat/firefox)
+* [Full Realtools](https://realmerge.shay.cat)
+* [Full Realtool's repo](https://github.com/shayypy/realmerge)
 
 # Demonstration
 
-![demonstration](https://github.com/shayypy/realmerge-cws/blob/main/example.gif)
+![demonstration](https://i.imgur.com/X6BMNj5.gif)
 
-A demonstration on Firefox 91, but it looks about the same on Chromium-based browsers :)
+A demonstration on Firefox 93

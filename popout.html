@@ -3,14 +3,23 @@
 <head>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="popout-style.css"/>
+    <script src="browser-polyfill.js"></script>
 </head>
 <body>
-    <h2 class="head">Realmerge Settings</h2>
+    <h2 class="head">Realtools Settings</h2>
     <div style="padding:15px;padding-top:0px">
         <h3>Attribution</h3>
         <input type="checkbox" id="settings-watermark">
         <label for="settings-watermark">Horse Reality watermark</label>
         <p class="modal-footnote">Although not required by HR, we recommend keeping this enabled if you plan on sharing merged images.</p>
+        <h3>Merge Options</h3>
+        <input type="checkbox" id="settings-remove-whites">
+        <label for="settings-remove-whites">Remove white layers</label>
+        <h3>Tagline Generator</h3>
+        <input type="text" id="settings-tagline-format"/>
+        <p>Use placeholder values (designated by curly brackets) to compose a tagline format for your horses.</p>
+        <br>
+        <a href="legend.html">🔗 Open legend</a>
     </div>
 </body>
 <script src="popout.js"></script>
