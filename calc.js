@@ -85,7 +85,7 @@ const adviceSentences = {
     ]
 }
 let conformationParagraphs = '';
-let qualityResults = {very_good_plus: 0, very_good: 0, very_good_minus: 0, good_plus: 0, good: 0, neutral_good: 0, average: 0, below_average: 0, poor: 0};
+let qualityResults = {very_good_plus: 0, very_good: 0, very_good_minus: 0, good_plus: 0, good: 0, average: 0, below_average: 0, poor: 0};
 let qualityStats = {};
 let confTraits = {};
 let lowestScore = null;
@@ -109,7 +109,6 @@ const qualityMap = {
     poor: {max: 39, min: 1},
     below_average: {max: 59, min: 40},
     average: {max: 69, min: 60},
-    neutral_good: {max: 84, min: 70},
     good: {max: 79, min: 70},
     good_plus: {max: 84, min: 80},
     very_good_minus: {max: 89, min: 85},
@@ -366,19 +365,17 @@ async function preloadTabs() {
                 }
             }
         });
-        // compensate for neutral good
-        if (qualityStats.neck == 'good_plus' & qualityStats.shoulders == 'very_good') {
-            qualityStats.neck = 'neutral_good';
-            qualityResults.good_plus -= 1;
-            qualityResults.neutral_good += 1;
+        if (qualityStats.neck != 'good_plus' & qualityStats.shoulders == 'very_good') {
+            qualityStats.neck = 'good_plus';
+            qualityResults.good_plus += 1;
         }
-        if (qualityStats.shoulders == 'good_plus' & qualityStats.neck == 'very_good') {
-            qualityStats.shoulders = 'neutral_good';
-            qualityResults.good_plus -= 1;
-            qualityResults.neutral_good += 1;
+        if (qualityStats.shoulders != 'good_plus' & qualityStats.neck == 'very_good') {
+            qualityStats.shoulders = 'good_plus';
+            qualityResults.good_plus += 1;
         }
+
         // compensate for very good plus: neck
-        if (qualityStats.neck == 'very_good' & (qualityStats.shoulders == 'good' || qualityStats.shoulders == 'neutral_good')) {
+        if (qualityStats.neck == 'very_good' & qualityStats.shoulders == 'good') {
         } else {
             qualityStats.neck == 'very_good_minus'
         }
@@ -388,7 +385,7 @@ async function preloadTabs() {
             qualityStats.neck == 'very_good'
         }
         // compensate for very good plus: shoulders
-        if (qualityStats.shoulders == 'very_good' & (qualityStats.neck == 'good' || qualityStats.neck == 'neutral_good')) {
+        if (qualityStats.shoulders == 'very_good' & qualityStats.neck == 'good') {
         } else {
             qualityStats.shoulders == 'very_good_minus'
         }
@@ -410,7 +407,7 @@ async function preloadTabs() {
         let conformationString = 'Conformation - ';
         if (qualityResults.very_good) conformationString += `<span style="color:#57BB8A">${qualityResults.very_good_minus + qualityResults.very_good + qualityResults.very_good_plus}VG</span> `;
         if (qualityResults.good_plus) conformationString += `<span style="color:#9BC67B">${qualityResults.good_plus}G+</span> `;
-        if (qualityResults.good) conformationString += `<span style="color:#D5D06F">${qualityResults.good + qualityResults.neutral_good}G</span> `;
+        if (qualityResults.good) conformationString += `<span style="color:#D5D06F">${qualityResults.good}G</span> `;
         if (qualityResults.average) conformationString += `<span style="color:#FED467">${qualityResults.average}A</span> `;
         if (qualityResults.below_average) conformationString += `<span style="color:#EE9A6F">${qualityResults.below_average}BA</span> `;
         if (qualityResults.poor) conformationString += `<span style="color:#E67C73">${qualityResults.poor}P</span>`;
