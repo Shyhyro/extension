@@ -6,8 +6,7 @@ Mini version of Realtools for Chromium-based and Firefox-based browsers.
 
 * [Chrome Web Store page](https://realtools.shay.cat/chrome)
 * [addons.mozilla.org page](https://realtools.shay.cat/firefox)
-* [Full Realtools](https://realmerge.shay.cat)
-* [Full Realtool's repo](https://github.com/shayypy/realmerge)
+* [Realtools' main site](https://realtools.shay.cat)
 
 # Demonstration
 
