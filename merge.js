@@ -110,6 +110,8 @@ async function mergeImage() {
     mergeButton.remove();
 }
 
-window.addEventListener('load', () => {
-    initMergeButton()
-})
+if (hrUrlRegex.test(window.location.href)) {
+    window.addEventListener('load', () => {
+        initMergeButton()
+    })
+}
