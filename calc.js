@@ -526,7 +526,7 @@ async function generateTagline() {
         hs_r1: Number.parseFloat(highestScore).toPrecision(3),
         hs_r2: Number.parseFloat(highestScore).toPrecision(4),
         hs_r3: Number.parseFloat(highestScore).toPrecision(5),
-        gp: geneticPotential,
+        gp: geneticPotential.trim(),
         dr: gpResults[0].value,
         dv: gpResults[1].value,
         en: gpResults[2].value,
