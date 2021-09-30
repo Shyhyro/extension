@@ -11,7 +11,7 @@ async function init() {
     if (typeof storage.remove_whites != 'undefined') {removeWhitesCheck.checked = Boolean(storage.remove_whites)}
     else {removeWhitesCheck.checked = false}
 
-    storage.taglineFormat = storage.taglineFormat || '{vg}VG {gp}G+ {g}G {a}A {ba}BA {p}P';
+    storage.taglineFormat = storage.taglineFormat || '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P';
     taglineFormat.value = storage.taglineFormat
 
     watermarkCheck.addEventListener('click', (event) => {
