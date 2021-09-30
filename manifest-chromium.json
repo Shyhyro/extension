@@ -29,7 +29,7 @@
                 "*://*.horsereality.com/horses/*",
                 "*://*.horsereality.nl/horses/*"
             ],
-            "js": ["browser-polyfill.js", "calc.js", "merge.js"]
+            "js": ["browser-polyfill.js", "insert-css.js", "calc.js", "merge.js"]
         }
     ]
 }

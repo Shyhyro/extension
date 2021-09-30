@@ -5,11 +5,6 @@ const storage = {};
 function initMergeButton() {
     const mergeButton = document.querySelector('#realtools-merge-button');
     if (mergeButton) return;
-    const head = document.getElementsByTagName('head')[0];
-    const stylesheet = document.createElement('link');
-    stylesheet.rel = 'stylesheet';
-    stylesheet.href = `${realtoolsDomain}/static/extensions.css`;
-    head.appendChild(stylesheet);
 
     const button = document.createElement('button');
     button.classList = 'yellow';
@@ -112,6 +107,6 @@ async function mergeImage() {
 
 if (hrUrlRegex.test(window.location.href)) {
     window.addEventListener('load', () => {
-        initMergeButton()
+        initMergeButton();
     })
 }

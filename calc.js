@@ -178,17 +178,6 @@ String.prototype.format = function() {
     return str;
 }
 
-function setCustomStyles() {
-    const style = document.createElement('style');
-
-    style.appendChild(document.createTextNode('.genetic_potential {width:75px}'));
-    style.appendChild(document.createTextNode('.genetic_stats {width:auto}'));
-    style.appendChild(document.createTextNode('.realtools-tablekey {background-color: #f3d197}'))
-    style.appendChild(document.createTextNode('.realtools-noselect {-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;'))
-
-    document.getElementsByTagName("head")[0].appendChild(style);
-}
-
 let currentTab = null;
 let initialTabCookie = null;
 
@@ -546,7 +535,6 @@ async function generateTagline() {
 }
 
 window.addEventListener('load', () => {
-    setCustomStyles();
     getInitialTab();
 
     // implement our own listener for tab switching
