@@ -488,13 +488,17 @@ function getInitialTab() {
 }
 
 function formatDataGenerator() {
+    const breedTotal = (num, round) => {return (((Number(num) / 10) + highestScore) / 2).toPrecision(round)}
     return {
+        // Conformation
         vg: qualityResults.very_good,
         gs: qualityResults.good_plus,
         g: qualityResults.good,
         a: qualityResults.average,
         ba: qualityResults.below_average,
         p: qualityResults.poor,
+
+        // scores
         ls: lowestScore,
         ls_r0: Number.parseFloat(lowestScore).toPrecision(2),
         ls_r1: Number.parseFloat(lowestScore).toPrecision(3),
@@ -505,6 +509,8 @@ function formatDataGenerator() {
         hs_r1: Number.parseFloat(highestScore).toPrecision(3),
         hs_r2: Number.parseFloat(highestScore).toPrecision(4),
         hs_r3: Number.parseFloat(highestScore).toPrecision(5),
+
+        // Genetic Potential
         gp: geneticPotential.trim(),
         dr: gpResults[0].value,
         dv: gpResults[1].value,
@@ -513,13 +519,65 @@ function formatDataGenerator() {
         rc: gpResults[4].value,
         sj: gpResults[5].value,
         re: gpResults[6].value,
+
+        // percentages
         drp: confScores.dressage.percentage,
         dvp: confScores.driving.percentage,
         enp: confScores.endurance.percentage,
         evp: confScores.eventing.percentage,
         rcp: confScores.flat_racing.percentage,
         sjp: confScores.show_jumping.percentage,
-        rep: confScores.western_reining.percentage
+        rep: confScores.western_reining.percentage,
+
+        // Other
+        // breed total
+        bt: breedTotal(geneticPotential.trim()),
+        bt_r0: breedTotal(geneticPotential.trim(), 2),
+        bt_r1: breedTotal(geneticPotential.trim(), 3),
+        bt_r2: breedTotal(geneticPotential.trim(), 4),
+        bt_r3: breedTotal(geneticPotential.trim(), 5),
+
+        dr_bt: breedTotal(gpResults[0].value),
+        dr_bt_r0: breedTotal(gpResults[0].value, 2),
+        dr_bt_r1: breedTotal(gpResults[0].value, 3),
+        dr_bt_r2: breedTotal(gpResults[0].value, 4),
+        dr_bt_r3: breedTotal(gpResults[0].value, 5),
+
+        dv_bt: breedTotal(gpResults[1].value),
+        dv_bt_r0: breedTotal(gpResults[1].value, 2),
+        dv_bt_r1: breedTotal(gpResults[1].value, 3),
+        dv_bt_r2: breedTotal(gpResults[1].value, 4),
+        dv_bt_r3: breedTotal(gpResults[1].value, 5),
+
+        en_bt: breedTotal(gpResults[2].value),
+        en_bt_r0: breedTotal(gpResults[2].value, 2),
+        en_bt_r1: breedTotal(gpResults[2].value, 3),
+        en_bt_r2: breedTotal(gpResults[2].value, 4),
+        en_bt_r3: breedTotal(gpResults[2].value, 5),
+
+        ev_bt: breedTotal(gpResults[3].value),
+        ev_bt_r0: breedTotal(gpResults[3].value, 2),
+        ev_bt_r1: breedTotal(gpResults[3].value, 3),
+        ev_bt_r2: breedTotal(gpResults[3].value, 4),
+        ev_bt_r3: breedTotal(gpResults[3].value, 5),
+
+        rc_bt: breedTotal(gpResults[4].value),
+        rc_bt_r0: breedTotal(gpResults[4].value, 2),
+        rc_bt_r1: breedTotal(gpResults[4].value, 3),
+        rc_bt_r2: breedTotal(gpResults[4].value, 4),
+        rc_bt_r3: breedTotal(gpResults[4].value, 5),
+
+        sj_bt: breedTotal(gpResults[5].value),
+        sj_bt_r0: breedTotal(gpResults[5].value, 2),
+        sj_bt_r1: breedTotal(gpResults[5].value, 3),
+        sj_bt_r2: breedTotal(gpResults[5].value, 4),
+        sj_bt_r3: breedTotal(gpResults[5].value, 5),
+
+        re_bt: breedTotal(gpResults[6].value),
+        re_bt_r0: breedTotal(gpResults[6].value, 2),
+        re_bt_r1: breedTotal(gpResults[6].value, 3),
+        re_bt_r2: breedTotal(gpResults[6].value, 4),
+        re_bt_r3: breedTotal(gpResults[6].value, 5),
     }
 }
 
