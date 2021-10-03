@@ -487,15 +487,8 @@ function getInitialTab() {
     preloadTabs();
 }
 
-async function generateTagline() {
-    // get storage
-    const storageData = await browser.storage.sync.get('realtoolsSettings');
-    Object.assign(storage, storageData.realtoolsSettings);
-    if (typeof storage.watermark == 'undefined') {storage.watermark = true}
-    storage.taglineFormat = storage.taglineFormat || '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P';
-
-    // compile format data
-    const formatData = {
+function formatDataGenerator() {
+    return {
         vg: qualityResults.very_good,
         gs: qualityResults.good_plus,
         g: qualityResults.good,
@@ -528,6 +521,17 @@ async function generateTagline() {
         sjp: confScores.show_jumping.percentage,
         rep: confScores.western_reining.percentage
     }
+}
+
+async function generateTagline() {
+    // get storage
+    const storageData = await browser.storage.sync.get('realtoolsSettings');
+    Object.assign(storage, storageData.realtoolsSettings);
+    if (typeof storage.watermark == 'undefined') {storage.watermark = true}
+    storage.taglineFormat = storage.taglineFormat || '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P';
+
+    // compile format data
+    const formatData = formatDataGenerator();
     return storage.taglineFormat.format(formatData)
 }
 
