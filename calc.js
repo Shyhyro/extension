@@ -365,11 +365,14 @@ async function preloadTabs() {
                 }
             }
         });
-        if (qualityStats.neck != 'good_plus' & qualityStats.shoulders == 'very_good') {
+        // patch neck/shoulders according to the majority of spreadsheet calculators
+        if (qualityStats.neck == 'good' & ['very_good', 'good', 'good_plus'].indexOf(qualityStats.shoulders) != -1 & conformationParagraphs.match(adviceSentences.neck[0].sentence)) {
+            qualityResults[qualityStats.neck] -= 1;
             qualityStats.neck = 'good_plus';
             qualityResults.good_plus += 1;
         }
-        if (qualityStats.shoulders != 'good_plus' & qualityStats.neck == 'very_good') {
+        if (qualityStats.shoulders == 'good' & ['very_good', 'good', 'good_plus'].indexOf(qualityStats.neck) != -1 & conformationParagraphs.match(adviceSentences.shoulders[0].sentence)) {
+            qualityResults[qualityStats.shoulders] -= 1;
             qualityStats.shoulders = 'good_plus';
             qualityResults.good_plus += 1;
         }
