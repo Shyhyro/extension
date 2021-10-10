@@ -1,5 +1,4 @@
-/* light/default theme
-all themes inherit from this */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
 :root {
     --bg: #eaf0f2;
@@ -15,11 +14,10 @@ all themes inherit from this */
     --primary-text: black;
     --footer-text: #696969;
     --modal-footnote-text: #707275;
-    --link-color: rgb(74, 122, 155);
+    --link-color: #4a7a9b;
     --link-color-hover: #183448;
 
     --border-color: #081b28;
-    --modal-border-color: #081b28;
 
     --multi-layer-background: #EEE;
     --select-item-background-hover: #e8e8e8;
@@ -29,8 +27,22 @@ all themes inherit from this */
 }
 
 html {background: var(--bg); width: 100%}
-body {color: var(--primary-text); text-align: left; font-family: roboto, sans-serif; padding: 0}
-html, body {margin: 0; scrollbar-width: thin; max-width: 350px}
+body {
+    color: var(--primary-text);
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1em;
+    padding: 0;
+}
+html, body {
+    margin: 0;
+    scrollbar-width: thin;
+    max-width: 350px;
+    max-height: 550px;
+    overflow-x: hidden;
+}
 label, li, p {color: var(--primary-text)}
 iframe {border: none}
 a {color: var(--link-color); text-decoration: none}
@@ -50,22 +62,7 @@ a:hover {color: var(--link-color-hover)}
     background: var(--box-bg);
     box-shadow: var(--shadow-color) 8px 8px 15px;
 }
-.box-title {
-    text-align: left;
-    color: var(--headers-buttons-text);
-    position: absolute;
-    margin-top: -49px;
-    margin-left: -10px;
-}
 input {font-family: roboto, sans-serif;}
-#horseurl {
-    width: 75%;
-    border: var(--border-color) 1px solid;
-    border-radius: 4px;
-    padding: 4px;
-    background: var(--input-background);
-    color: var(--input-color);
-}
 button {
     background: var(--button-background);
     border: none;
@@ -224,10 +221,11 @@ h4.settings-section {
 }
 
 .head {
-    background: var(--modal-border-color);
     margin: 0;
-    color: var(--headers-buttons-text);
-    padding: 10px 15px 10px 15px;
+    padding: 15px 15px 0px 15px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-style: normal;
 }
 
 h3, h4, p {

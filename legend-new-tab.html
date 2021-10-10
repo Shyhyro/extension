@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-<html style="text-align: center;margin: auto;max-width: 100%;">
+<html>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="popout-style.css">
+    <style>
+        html, body {
+            text-align: center;
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #format-legend {
+            margin: auto;
+            max-width: 700px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            background: white;
+            border-radius: 15px;
+            text-align: left;
+        }
+        .head {
+            margin: auto;
+            max-width: 700px;
+            margin-top: 15px;
+            text-align: left;
+            font-size: 30px;
+        }
+    </style>
 </head>
-<body style="max-width:100%">
-    <div style="padding-top:0px;margin: auto;max-width: 700px;margin-top: 15px;margin-bottom:15px;background: white;border-radius: 4px" id="format-legend">
-        <h2 class="head" style="border-radius: 4px 4px 0 0">Tagline Formatting Legend</h2><br>
-        <div style="padding-left: 15px;padding-right: 15px;padding-bottom: 15px;"><p>Use these placeholders to compose a tagline format for your horses. Go to the popout menu and replace the value under "Tagline Generator" to autosave what you've written.</p>
+<body>
+    <h2 class="head">Tagline Formatting Legend</h2>
+    <div id="format-legend">
+        <div style="padding: 15px">
+        <p>Use these placeholders to compose a tagline format for your horses. Go to the popout menu and replace the value under "Tagline Generator" to autosave what you've written.</p>
         <h3>Conformation</h3>
         <ul>
             <li><code>{vg}</code> Very Good</li>
@@ -47,6 +72,11 @@
         </ul>
         <hr>
         <h3>Other</h3>
+        <ul>
+            <li><code>{sex}</code> FILLY, COLT, STALLION, MARE, or GELDING</li>
+            <li><code>{ln}</code> Lifenumber</li>
+        </ul>
+        <h4>Breed Total</h4>
         <ul>
             <li><code>{bt}</code> Breed Total (overall GP)</li>
             <li><code>{dr_bt}</code> Breed Total (Dressage)</li>
