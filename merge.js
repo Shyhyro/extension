@@ -25,7 +25,6 @@ async function mergeImageStorageContainer() {
     if (typeof storage.watermark == 'undefined') {
         storage.watermark = true
     }
-    storage.taglineFormat = storage.taglineFormat || '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P';
     await mergeImage();
 }
 

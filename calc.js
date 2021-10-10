@@ -102,6 +102,7 @@ const confScores = {
 }
 const gpTraits = {};
 let gpResults = [];
+let horseIsFoal = false;
 const calculatedValues = {
     quality: false
 }
@@ -455,20 +456,41 @@ async function preloadTabs() {
         if (tab == currentTab) tab.style.display == 'block';
         else tab.style.display = tab.style.display || 'none';
 
-        const taglineFormatted = await generateTagline();
-        const taglineInput = document.querySelector('#changetagline');
-        if (!taglineInput) {
-            return
-        }
-        taglineInput.placeholder = taglineFormatted;
+        const formattedStrings = await generateTaglineAndName();
+        function tagline() {
+            const taglineInput = document.querySelector('#changetagline');
+            if (!taglineInput) {
+                return
+            }
+            taglineInput.placeholder = formattedStrings.tagline;
 
-        const fillTaglineButton = document.createElement('button');
-        fillTaglineButton.id = 'realtools-use-tagline-button';
-        fillTaglineButton.style.lineHeight = '16px';
-        fillTaglineButton.style.fontSize = '10px';
-        fillTaglineButton.onclick = () => {taglineInput.value = taglineFormatted}
-        fillTaglineButton.appendChild(document.createTextNode('Fill auto-tagline'))
-        taglineInput.parentNode.appendChild(fillTaglineButton);
+            const fillTaglineButton = document.createElement('button');
+            fillTaglineButton.id = 'realtools-use-tagline-button';
+            fillTaglineButton.style.lineHeight = '16px';
+            fillTaglineButton.style.fontSize = '10px';
+            fillTaglineButton.onclick = () => {taglineInput.value = formattedStrings.tagline}
+            fillTaglineButton.appendChild(document.createTextNode('Fill auto-tagline'))
+            fillTaglineButton.form = null;
+            taglineInput.parentNode.appendChild(fillTaglineButton);
+        }
+        function name() {
+            const nameInput = document.querySelector('#changename');
+            if (!nameInput) {
+                return
+            }
+            nameInput.placeholder = formattedStrings.name;
+
+            const fillNameButton = document.createElement('button');
+            fillNameButton.id = 'realtools-use-name-button';
+            fillNameButton.style.lineHeight = '16px';
+            fillNameButton.style.fontSize = '10px';
+            fillNameButton.onclick = () => {nameInput.value = formattedStrings.name}
+            fillNameButton.appendChild(document.createTextNode('Fill auto-name'))
+            fillNameButton.form = null;
+            nameInput.parentNode.appendChild(fillNameButton);
+        }
+        tagline();
+        name();
     }
 
     geneticsTabDoc = await getTabContent('tab_genetics2');
@@ -488,6 +510,46 @@ function getInitialTab() {
         return
     }
     preloadTabs();
+}
+
+function isFoal() {
+    const looking_at = document.querySelector('.looking_at');
+    if (looking_at && looking_at.classList == ['looking_at']) {
+        // mare & foal using banner
+        horseIsFoal = looking_at.innerText.indexOf('foal') != -1;
+    } else if (document.querySelector('.horse_photocon.foal') && document.querySelector('.icon16').alt != 'Mare') {
+        // mare & foal but banner is not present
+        horseIsFoal = true;
+    } else if (document.querySelector('.foal')) {
+        // only foal
+        horseIsFoal = true;
+    }
+    return horseIsFoal
+}
+
+function getSex() {
+    const overall = document.querySelector('.icon16').alt;
+    isFoal();
+    if (overall == 'Stallion') {
+        if (horseIsFoal) {
+            return 'COLT'
+        } else {
+            return 'STALLION'
+        }
+    } else if (overall == 'Gelding') {
+        if (horseIsFoal) {
+            return 'COLT'  // I don't think this can happen
+        } else {
+            return 'GELDING'
+        }
+    } else if (overall == 'Mare') {
+        if (horseIsFoal) {
+            return 'FILLY'
+        } else {
+            return 'MARE'
+        }
+    }
+    return 'UNKNOWN'
 }
 
 function formatDataGenerator() {
@@ -581,19 +643,27 @@ function formatDataGenerator() {
         re_bt_r1: breedTotal(gpResults[6].value, 3),
         re_bt_r2: breedTotal(gpResults[6].value, 4),
         re_bt_r3: breedTotal(gpResults[6].value, 5),
+
+        // more other
+        sex: getSex(),
+        ln: document.querySelector('#hid').value
     }
 }
 
-async function generateTagline() {
+async function generateTaglineAndName() {
     // get storage
     const storageData = await browser.storage.sync.get('realtoolsSettings');
     Object.assign(storage, storageData.realtoolsSettings);
     if (typeof storage.watermark == 'undefined') {storage.watermark = true}
     storage.taglineFormat = storage.taglineFormat || '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P';
+    storage.nameFormat = storage.nameFormat || '{ln}';
 
     // compile format data
     const formatData = formatDataGenerator();
-    return storage.taglineFormat.format(formatData)
+    return {
+        name: storage.nameFormat.format(formatData),
+        tagline: storage.taglineFormat.format(formatData)
+    }
 }
 
 window.addEventListener('load', () => {
