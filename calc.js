@@ -37,7 +37,7 @@ const adviceSentences = {
     head: [
         {bracket: 'excellent', sentence: /looking closer at (his|her) head, (he|she) shows some nice proportions/},
         {bracket: 'good', sentence: /head looks pretty elegant/},
-        {bracket: 'average', sentence: /head seems ok\. not too bad/},
+        {bracket: 'average', sentence: /head seems ok(ay)?\. not too bad/},
         {bracket: 'fair', sentence: /head is somewhat off proportion/},
         {bracket: 'poor', sentence: /that's one funky looking horse head/}
     ],
@@ -79,7 +79,7 @@ const adviceSentences = {
     socks: [
         {bracket: 'excellent', sentence: /feathering is amazing and looks thick/},
         {bracket: 'good', sentence: /has a good amount of feathering going on/},
-        {bracket: 'average', sentence: /feathering looks okay/},
+        {bracket: 'average', sentence: /feathering looks ok(ay)?/},
         {bracket: 'fair', sentence: /feathering is a little all over the place, (he|she) looks like a hobbit/},
         {bracket: 'poor', sentence: /see those skimpy legs\? no feathering at all/}
     ]
