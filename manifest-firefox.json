@@ -1,7 +1,7 @@
 {
     "name": "Realtools",
     "description": "The mini version of Realtools.",
-    "version": "2.1",
+    "version": "2.2",
     "manifest_version": 2,
     "permissions": ["storage", "*://*.horsereality.com/horses/*", "*://*.horsereality.nl/horses/*", "https://realtools.shay.cat/*"],
     "browser_action": {
