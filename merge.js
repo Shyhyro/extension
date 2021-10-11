@@ -102,7 +102,7 @@ function initButtons() {
         const multiButton = createMultiButton('.horse_photocon>.horse_photo');
         div.appendChild(multiButton);
 
-        if (document.querySelector('.foal')) {
+        if (document.querySelector('.horse_photocon.foal')) {
             multiButton.children[0].innerText = 'Multi (mare)';
             div.appendChild(document.createTextNode(' '));
             const multiFoalButton = createMultiButton('.horse_photocon.foal>.horse_photo', 'Multi (foal)');
