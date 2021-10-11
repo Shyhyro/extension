@@ -40,7 +40,6 @@ html, body {
     margin: 0;
     scrollbar-width: thin;
     max-width: 350px;
-    max-height: 550px;
     overflow-x: hidden;
 }
 label, li, p {color: var(--primary-text)}
