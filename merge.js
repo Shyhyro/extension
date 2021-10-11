@@ -2,21 +2,117 @@ const hrUrlRegex = /^https:\/\/(v2\.|www\.)?horsereality\.(com|nl)\/horses\/(\d{
 const realtoolsDomain = 'https://realtools.shay.cat';
 const storage = {};
 
-function initMergeButton() {
+// https://github.com/discohook/site/blob/main/common/base64/base64Encode.ts
+function base64Encode(utf8) {
+    const encoded = encodeURIComponent(utf8);
+
+    const escaped = encoded.replace(/%[\dA-F]{2}/g, hex => {
+      return String.fromCharCode(Number.parseInt(hex.slice(1), 16));
+    });
+
+    return btoa(escaped)
+}
+
+// https://github.com/discohook/site/blob/main/common/base64/base64UrlEncode.ts
+function base64UrlEncode(utf8) {
+    return base64Encode(utf8)
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=/g, "")
+}
+
+function dissectUrl(url) {
+    const split = url.split('/');
+    const randomNum = Math.floor((Math.random() * 10000) + 1);
+    const layerId = split[8].replace('.png', '');
+    return {
+        type: split[4],
+        horse_type: split[5],
+        body_part: split[6],
+        size: split[7],
+        id: layerId,
+        large_url: url,
+        small_url: url.replace('large', 'small'),
+        enabled: true,
+        key_id: `${randomNum}-${layerId}`
+    }
+}
+
+function generateMultiData(parent_class) {
+    const data = {
+        id: document.querySelector('#hid').value,
+        tld: window.location.hostname.replace('horsereality.', '').replace('v2.', '').replace('www.', ''),
+        name: document.title.replace(' - Horse Reality', ''),
+        source: 'Horse Reality via Extension',
+        layers: []
+    };
+    let index = 0;
+    for (const img of document.querySelector(parent_class).children) {
+        if (img.src.indexOf('blank.png') != -1) {
+            continue
+        }
+        const layer = dissectUrl(img.src);
+        layer.index = index;
+        data.layers.push(layer);
+        index += 1;
+    }
+    return base64UrlEncode(JSON.stringify(data))
+}
+
+function initButtons() {
     const mergeButton = document.querySelector('#realtools-merge-button');
     if (mergeButton) return;
-
-    const button = document.createElement('button');
-    button.classList = 'yellow';
-    button.id = 'realtools-merge-button';
-    button.title = 'with Realmerge! :)';
-    button.form = null;
-    button.onclick = () => {mergeImageStorageContainer()};
-    const text = document.createTextNode('Merge');
-    button.appendChild(text);
-
     const pane = document.getElementsByClassName('horse_left')[0];
-    pane.insertBefore(button, pane.children[1]);
+
+    function createMergeButton() {
+        const button = document.createElement('button');
+        button.classList = 'yellow';
+        button.id = 'realtools-merge-button';
+        button.title = 'with Realmerge! :)';
+        button.form = null;
+        button.onclick = () => {mergeImageStorageContainer()};
+        const text = document.createTextNode('Merge');
+        button.appendChild(text);
+
+        pane.insertBefore(button, pane.children[1]);
+    }
+    function createMultiButton(parent_class, name='Multi') {
+        const linkWrap = document.createElement('a');
+        linkWrap.href = `${realtoolsDomain}/merge/multi?data=${generateMultiData(parent_class)}`;
+        linkWrap.target = '_blank';
+        
+        const button = document.createElement('button');
+        button.classList = 'yellow';
+        button.id = `realtools-multi-button-${name}`;
+        button.form = null;
+        const text = document.createTextNode(name);
+        button.appendChild(text);
+        
+        linkWrap.appendChild(button);
+        return linkWrap
+    }
+    function createRealtoolsSection() {
+        const div = document.createElement('div');
+        div.classList = ['infotext realtools-left-section'];
+
+        const title = document.createElement('h2');
+        title.appendChild(document.createTextNode('Realtools'));
+        div.appendChild(title);
+
+        const multiButton = createMultiButton('.horse_photocon>.horse_photo');
+        div.appendChild(multiButton);
+
+        if (document.querySelector('.foal')) {
+            multiButton.children[0].innerText = 'Multi (mare)';
+            div.appendChild(document.createTextNode(' '));
+            const multiFoalButton = createMultiButton('.horse_photocon.foal>.horse_photo', 'Multi (foal)');
+            div.appendChild(multiFoalButton);
+        }
+
+        pane.insertBefore(div, pane.children[-1]);
+    }
+    createMergeButton();
+    createRealtoolsSection();
 }
 
 async function mergeImageStorageContainer() {
@@ -106,6 +202,6 @@ async function mergeImage() {
 
 if (hrUrlRegex.test(window.location.href)) {
     window.addEventListener('load', () => {
-        initMergeButton();
+        initButtons();
     })
 }

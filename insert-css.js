@@ -35,6 +35,7 @@ button.yellow[disabled], input[type=submit].yellow[disabled] {background: gray;c
     -ms-user-select: none;
     user-select: none;
 }
+.realtools-left-section {margin-top: 5px !important}
 `
 
 function main() {
