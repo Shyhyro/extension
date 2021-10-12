@@ -30,7 +30,7 @@ const adviceSentences = {
     posture: [
         {bracket: 'excellent', sentence: /posture is perfectly balanced/},
         {bracket: 'good', sentence: /seems to stand straight and keeps/},
-        {bracket: 'average', sentence: /seems to stand pretty stable like any other horse|seems to hold up like any other horse/},
+        {bracket: 'average', sentence: /(seems to stand pretty stable like any other horse|seems to hold up like any other horse)/},
         {bracket: 'fair', sentence: /seems to be leaning a bit\. posture needs work/},
         {bracket: 'poor', sentence: /has a very imbalanced posture and stands instable/}
     ],
@@ -65,7 +65,7 @@ const adviceSentences = {
     hindquarters: [
         {bracket: 'excellent', sentence: /there's great engagement in the hindquarters/},
         {bracket: 'good', sentence: /there's good muscle on the hindquarters/},
-        {bracket: 'average', sentence: /i guess those hindquarters are passible/},
+        {bracket: 'average', sentence: /i guess those hindquarters are passable/},
         {bracket: 'fair', sentence: /hindquarters are looking a little wonky, they're hanging too much/},
         {bracket: 'poor', sentence: /those are some weak looking hindquarters/}
     ],
