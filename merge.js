@@ -1,6 +1,7 @@
 const hrUrlRegex = /^https:\/\/(v2\.|www\.)?horsereality\.(com|nl)\/horses\/(\d{1,10})\/.*/;
 const realtoolsDomain = 'https://realtools.shay.cat';
 const storage = {};
+const tld = window.location.hostname.replace('horsereality.', '').replace('v2.', '').replace('www.', '');
 
 // https://github.com/discohook/site/blob/main/common/base64/base64Encode.ts
 function base64Encode(utf8) {
@@ -41,7 +42,7 @@ function dissectUrl(url) {
 function generateMultiData(parent_class) {
     const data = {
         id: document.querySelector('#hid').value,
-        tld: window.location.hostname.replace('horsereality.', '').replace('v2.', '').replace('www.', ''),
+        tld: tld,
         name: document.title.replace(' - Horse Reality', ''),
         source: 'Horse Reality via Extension',
         layers: []
@@ -76,21 +77,39 @@ function initButtons() {
 
         pane.insertBefore(button, pane.children[1]);
     }
+
     function createMultiButton(parent_class, name='Multi') {
         const linkWrap = document.createElement('a');
         linkWrap.href = `${realtoolsDomain}/merge/multi?data=${generateMultiData(parent_class)}`;
         linkWrap.target = '_blank';
-        
+
         const button = document.createElement('button');
         button.classList = 'yellow';
         button.id = `realtools-multi-button-${name}`;
         button.form = null;
         const text = document.createTextNode(name);
         button.appendChild(text);
-        
+
         linkWrap.appendChild(button);
         return linkWrap
     }
+
+    function createVisionButton() {
+        const linkWrap = document.createElement('a');
+        linkWrap.href = `${realtoolsDomain}/vision?share=${document.querySelector('#hid').value}&tld=${tld}`;
+        linkWrap.target = '_blank';
+
+        const button = document.createElement('button');
+        button.classList = 'yellow';
+        button.id = `realtools-vision-button`;
+        button.form = null;
+        const text = document.createTextNode('Vision');
+        button.appendChild(text);
+
+        linkWrap.appendChild(button);
+        return linkWrap
+    }
+
     function createRealtoolsSection() {
         const div = document.createElement('div');
         div.classList = ['infotext realtools-left-section'];
@@ -107,6 +126,12 @@ function initButtons() {
             div.appendChild(document.createTextNode(' '));
             const multiFoalButton = createMultiButton('.horse_photocon.foal>.horse_photo', 'Multi (foal)');
             div.appendChild(multiFoalButton);
+        }
+
+        if (document.querySelector('.foal')) {
+            div.appendChild(document.createTextNode(' '));
+            const button = createVisionButton();
+            div.appendChild(button);
         }
 
         pane.insertBefore(div, pane.children[-1]);
