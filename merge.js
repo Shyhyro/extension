@@ -150,26 +150,62 @@ async function mergeImageStorageContainer() {
 }
 
 async function mergeImage() {
-    const url = window.location.href;
-    if (!hrUrlRegex.test(url)) return;
+    const pageUrl = window.location.href;
+    if (!hrUrlRegex.test(pageUrl)) return;
     const mergeButton = document.querySelector('#realtools-merge-button');
     if (!mergeButton) return;
 
     mergeButton.innerText = 'Merging...';
     mergeButton.disabled = 'true';
 
-    // merge the horse
-    const response = await fetch(`${realtoolsDomain}/api/merge`, {
-        method: 'POST',
-        body: JSON.stringify({url: url, return_layer_urls: true, watermark: storage.watermark, use_whites: !storage.remove_whites}),
-        headers: {'Content-Type': 'application/json'}
-    });
-    const data = await response.json();
+    adultUrls = [];
+    foalUrls = [];
 
-    // error-from-server handling
-    if (!response.ok) {
-        alert(`Realmerge error: ${data.message}`);
-        return
+    for (const horse_photo of document.getElementsByClassName('horse_photo')) {
+        for (const img of horse_photo.children) {
+            if (img.src.indexOf('whites') != -1 && storage.remove_whites) continue
+
+            if (img.classList.contains('foal')) {
+                foalUrls.push(img.src)
+            } else if (img.src.indexOf('blank.png') == -1) {
+                adultUrls.push(img.src)
+            }
+        }
+    }
+
+    let mergedAdultUrl = null;
+    let mergedFoalUrl = null;
+
+    // merge the horse(s)
+    if (adultUrls.length > 0) {
+        const response = await fetch(`${realtoolsDomain}/api/merge/multiple`, {
+            method: 'POST',
+            body: JSON.stringify({urls: adultUrls, watermark: storage.watermark}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await response.json();
+
+        // error-from-server handling
+        if (!response.ok) {
+            alert(`Realmerge error: ${data.message}`);
+            return
+        }
+        mergedAdultUrl = data.url;
+    }
+    if (foalUrls.length > 0) {
+        const response = await fetch(`${realtoolsDomain}/api/merge/multiple`, {
+            method: 'POST',
+            body: JSON.stringify({urls: foalUrls, watermark: storage.watermark}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await response.json();
+
+        // error-from-server handling
+        if (!response.ok) {
+            alert(`Realmerge error: ${data.message}`);
+            return
+        }
+        mergedFoalUrl = data.url;
     }
 
     // remove the top bar, realtools is more important :sunglasses:
@@ -179,7 +215,7 @@ async function mergeImage() {
     // add our layers (replaces the top bar)
     const layersBox = document.createElement('div');
     layersBox.classList = 'realtools-layers-slider looking_at';
-    for (const layerImgUrl of data.layer_urls) {
+    for (const layerImgUrl of [...adultUrls, ...foalUrls]) {
         const layerImg = document.createElement('img');
         layerImg.src = layerImgUrl;
         layersBox.appendChild(layerImg);
@@ -202,12 +238,18 @@ async function mergeImage() {
         parent.appendChild(merged);
     }
     const horse_photos = document.getElementsByClassName('horse_photo');
-    if (data.horse_url) {
-        replaceWithMerged(horse_photos[0], data.horse_url)
+    if (mergedAdultUrl) {
+        replaceWithMerged(horse_photos[0], mergedAdultUrl)
     }
-    if (data.foal_url) {
-        replaceWithMerged(horse_photos[1], data.foal_url, foal=true)
-        document.getElementsByClassName('horse_photocon foal')[0].classList = 'horse_photocon foal realtools-photocon';
+    if (mergedFoalUrl) {
+        if (mergedAdultUrl) {
+            replaceWithMerged(horse_photos[1], mergedFoalUrl, foal=true)
+            document.querySelector('.horse_photocon.foal').classList = 'horse_photocon foal realtools-photocon';
+        } else {
+            // there is no adult on the page
+            replaceWithMerged(horse_photos[0], mergedFoalUrl, foal=true)
+            document.querySelector('.horse_photocon').classList = 'horse_photocon foal realtools-photocon';
+        }
     }
 
     // add a "powered by" pseudo-tab
