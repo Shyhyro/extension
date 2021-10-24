@@ -329,13 +329,12 @@ async function preloadTabs() {
 
     async function achievements() {
         const tab = document.getElementById('tab_achievements2');
-        //if (tab == currentTab) return
-
-        const doc = await getTabContent('tab_achievements2');
-
+        
         // make sure there's no weird overlap
         if (tab == currentTab) tab.style.display == 'block'
         else tab.style.display = tab.style.display || 'none'
+
+        const doc = await getTabContent('tab_achievements2');
 
         // load data itself
         const conformationBox = doc.querySelector('.conformation');
@@ -448,11 +447,12 @@ async function preloadTabs() {
     async function updates() {
         const tab = document.getElementById('tab_update2');
         const doc = await getTabContent('tab_update2');
-        tab.innerHTML = doc.children[0].innerHTML;
-
+        
         // make sure there's no weird overlap
         if (tab == currentTab) tab.style.display == 'block';
         else tab.style.display = tab.style.display || 'none';
+
+        tab.innerHTML = doc.children[0].innerHTML;
 
         const formattedStrings = await generateTaglineAndName();
         function tagline() {
@@ -491,6 +491,12 @@ async function preloadTabs() {
         name();
     }
 
+    const geneticsTab = document.getElementById('tab_genetics2');
+    if (geneticsTab != currentTab) {
+        // make sure there's no weird overlap
+        if (geneticsTab == currentTab) geneticsTab.style.display == 'block'
+        else geneticsTab.style.display = geneticsTab.style.display || 'none'
+    }
     geneticsTabDoc = await getTabContent('tab_genetics2');
     conformationParagraphs = geneticsTabDoc.getElementsByClassName('curly-quotes')[0].innerText.trim().toLowerCase();
     await achievements();
