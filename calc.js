@@ -201,15 +201,13 @@ async function getTabContent(tabName) {
     const formData = new FormData();
     formData.append('hid', document.querySelector('#hid').value);
     formData.append('newtab', tabName);
+
     const response = await fetch(
         `${document.location.origin}/ajax/update_horsetab.php`, {
             method: 'POST',
             body: formData
         }
     );
-    // HR does weird cookie stuff here that messes with tabs on page load,
-    // so we reset the tab cookie to what we assume was its original value
-    setCookie({name: 'selected_horse_tab', value: initialTabCookie});
 
     const returnedContent = await response.text();
     document.getElementById(tabName).innerHTML = returnedContent;
@@ -498,6 +496,10 @@ async function preloadTabs() {
     await achievements();
     await genetics();
     await updates();
+
+    // HR sets a cookie whenever you request a new tab, so we reset it
+    // here to what we assume was its original value
+    setCookie({name: 'selected_horse_tab', value: initialTabCookie});
 }
 
 function getInitialTab() {
@@ -669,15 +671,6 @@ window.addEventListener('load', () => {
             if (currentTab != document.getElementById(tab.lang)) {
                 currentTab = document.getElementById(tab.lang);
                 setCookie({name: 'selected_horse_tab', value: currentTab.id.replace('tab_','').replace('2','')});
-                //function wait() {
-                //    const loading = document.querySelector('.loading').style.display == 'block';
-                //    if (loading) {
-                //        setTimeout(() => {wait()}, 0)
-                //    } else {
-                //        setTimeout(() => {tabSwitch()}, 500)
-                //    }
-                //}
-                //wait()
             }
         })
     }
