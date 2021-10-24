@@ -420,8 +420,8 @@ async function preloadTabs() {
 
         // min & max show values
         if (doc.querySelector('.grid_6.half_block').children.length < 4) {
-            lowestScore = 'unavailable';
-            highestScore = 'unavailable';
+            lowestScore = '';
+            highestScore = '';
         }
         else {
             for (const row of doc.querySelector('.grid_6.half_block').children) {
@@ -437,7 +437,7 @@ async function preloadTabs() {
             }
         }
 
-        if (lowestScore != 'unavailable') {
+        if (lowestScore != '') {
             const resultsBlock = doc.querySelector('.grid_6.half_block');
             const showTitle = resultsBlock.children[0];
             showTitle.innerHTML = 'Latest 25 show results';
@@ -554,6 +554,7 @@ function getSex() {
 
 function formatDataGenerator() {
     const breedTotal = (num, round) => {return (((Number(num) / 10) + highestScore) / 2).toPrecision(round)}
+    const highScores = (num, round) => {if (num == '') {return num} else {return Number.parseFloat(num).toPrecision(round)}}
     return {
         // Conformation
         vg: qualityResults.very_good,
@@ -565,15 +566,15 @@ function formatDataGenerator() {
 
         // scores
         ls: lowestScore,
-        ls_r0: Number.parseFloat(lowestScore).toPrecision(2),
-        ls_r1: Number.parseFloat(lowestScore).toPrecision(3),
-        ls_r2: Number.parseFloat(lowestScore).toPrecision(4),
-        ls_r3: Number.parseFloat(lowestScore).toPrecision(5),
+        ls_r0: highScores(lowestScore, 2),
+        ls_r1: highScores(lowestScore, 3),
+        ls_r2: highScores(lowestScore, 4),
+        ls_r3: highScores(lowestScore, 5),
         hs: highestScore,
-        hs_r0: Number.parseFloat(highestScore).toPrecision(2),
-        hs_r1: Number.parseFloat(highestScore).toPrecision(3),
-        hs_r2: Number.parseFloat(highestScore).toPrecision(4),
-        hs_r3: Number.parseFloat(highestScore).toPrecision(5),
+        hs_r0: highScores(highestScore, 2),
+        hs_r1: highScores(highestScore, 3),
+        hs_r2: highScores(highestScore, 4),
+        hs_r3: highScores(highestScore, 5),
 
         // Genetic Potential
         gp: geneticPotential.trim(),
