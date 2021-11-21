@@ -3,6 +3,7 @@ const watermarkCheck = document.querySelector('#settings-watermark');
 const removeWhitesCheck = document.querySelector('#settings-remove-whites');
 const nameFormat = document.querySelector('#settings-name-format');
 const taglineFormat = document.querySelector('#settings-tagline-format');
+const idDisplayCheck = document.querySelector('#settings-id-display');
 
 async function init() {
     const data = await browser.storage.sync.get('realtoolsSettings');
@@ -11,6 +12,8 @@ async function init() {
     else {watermarkCheck.checked = true}
     if (typeof storage.remove_whites != 'undefined') {removeWhitesCheck.checked = Boolean(storage.remove_whites)}
     else {removeWhitesCheck.checked = false}
+    if (typeof storage.enable_id_display != 'undefined') {idDisplayCheck.checked = Boolean(storage.enable_id_display)}
+    else {idDisplayCheck.checked = false}
 
     // Formatting
     storage.taglineFormat = storage.taglineFormat || '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P';
@@ -36,6 +39,10 @@ async function init() {
         storage.taglineFormat = event.target.value;
         browser.storage.sync.set({realtoolsSettings: storage});
     });
+    idDisplayCheck.addEventListener('click', (event) => {
+        storage.enable_id_display = event.target.checked;
+        browser.storage.sync.set({realtoolsSettings: storage});
+    })
 }
 
 init();
