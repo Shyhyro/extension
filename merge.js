@@ -208,9 +208,13 @@ async function mergeImage() {
         mergedFoalUrl = data.url;
     }
 
-    // remove the top bar, realtools is more important :sunglasses:
-    const looking_at = document.getElementsByClassName('looking_at')[0]
+    // remove the top bar
+    const looking_at = document.getElementsByClassName('looking_at')[0];
     if (looking_at) looking_at.remove();
+
+    // move the layer ID display so that it does not collide, if present
+    const id_display = document.querySelector('#realtools-layer-ids-box');
+    if (id_display) id_display.style.top = '130px';
 
     // add our layers (replaces the top bar)
     const layersBox = document.createElement('div');
