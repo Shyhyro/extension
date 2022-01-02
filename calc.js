@@ -44,7 +44,7 @@ const adviceSentences = {
     neck: [
         {bracket: 'excellent', sentence: /has great elasticity in the shoulder/},
         {bracket: 'good', sentence: /has good shoulder muscles working/},
-        {bracket: 'average', sentence: /shoulder could be a bit more upright/},
+        {bracket: 'average', sentence: /shoulders? could be a bit more upright/},
         {bracket: 'fair', sentence: /shoulder is a bit lazy/},
         {bracket: 'poor', sentence: /has extremely stiff shoulders/}
     ],
@@ -58,7 +58,7 @@ const adviceSentences = {
     shoulders: [
         {bracket: 'excellent', sentence: /has great elasticity in the shoulder/},
         {bracket: 'good', sentence: /has good shoulder muscles working/},
-        {bracket: 'average', sentence: /shoulder could be a bit more upright/},
+        {bracket: 'average', sentence: /shoulders? could be a bit more upright/},
         {bracket: 'fair', sentence: /shoulder is a bit lazy/},
         {bracket: 'poor', sentence: /has extremely stiff shoulders/}
     ],
