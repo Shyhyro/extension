@@ -91,7 +91,7 @@ async function init() {
     const data = await browser.storage.sync.get('realtoolsSettings');
     Object.assign(storage, data.realtoolsSettings);
     if (typeof storage.enable_id_display == 'undefined') {
-        storage.enable_id_display = true
+        storage.enable_id_display = false
     }
     if (storage.enable_id_display) {
         doTheThing();
