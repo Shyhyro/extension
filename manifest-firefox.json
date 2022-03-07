@@ -3,7 +3,7 @@
     "description": "The mini version of Realtools.",
     "version": "2.2",
     "manifest_version": 2,
-    "permissions": ["storage", "*://*.horsereality.com/horses/*", "https://realtools.shay.cat/*"],
+    "permissions": ["storage", "*://*.horsereality.com/horses/*", "https://rt-api.shay.cat/*"],
     "browser_action": {
         "default_popup": "popout.html",
         "default_icon": {

@@ -1,7 +1,7 @@
 const hrUrlRegex = /^https:\/\/(v2\.|www\.)?horsereality\.(com|nl)\/horses\/(\d{1,10})\/.*/;
 const realtoolsDomain = 'https://realtools.shay.cat';
+const realtoolsAPI = 'https://rt-api.shay.cat/v2';
 const storage = {};
-const tld = window.location.hostname.replace('horsereality.', '').replace('v2.', '').replace('www.', '');
 
 // https://github.com/discohook/site/blob/main/common/base64/base64Encode.ts
 function base64Encode(utf8) {
@@ -42,7 +42,6 @@ function dissectUrl(url) {
 function generateMultiData(parent_class) {
     const data = {
         id: document.querySelector('#hid').value,
-        tld: tld,
         name: document.title.replace(' - Horse Reality', ''),
         source: 'Horse Reality via Extension',
         layers: []
@@ -96,7 +95,7 @@ function initButtons() {
 
     function createVisionButton() {
         const linkWrap = document.createElement('a');
-        linkWrap.href = `${realtoolsDomain}/vision?share=${document.querySelector('#hid').value}&tld=${tld}`;
+        linkWrap.href = `${realtoolsDomain}/vision?share=${document.querySelector('#hid').value}`;
         linkWrap.target = '_blank';
 
         const button = document.createElement('button');
@@ -178,9 +177,9 @@ async function mergeImage() {
 
     // merge the horse(s)
     if (adultUrls.length > 0) {
-        const response = await fetch(`${realtoolsDomain}/api/merge/multiple`, {
+        const response = await fetch(`${realtoolsAPI}/merge/multiple`, {
             method: 'POST',
-            body: JSON.stringify({urls: adultUrls, watermark: storage.watermark}),
+            body: JSON.stringify({urls: adultUrls, use_watermark: storage.watermark}),
             headers: {'Content-Type': 'application/json'}
         });
         const data = await response.json();
@@ -190,12 +189,12 @@ async function mergeImage() {
             alert(`Realmerge error: ${data.message}`);
             return
         }
-        mergedAdultUrl = data.url;
+        mergedAdultUrl = data.merged;
     }
     if (foalUrls.length > 0) {
-        const response = await fetch(`${realtoolsDomain}/api/merge/multiple`, {
+        const response = await fetch(`${realtoolsAPI}/merge/multiple`, {
             method: 'POST',
-            body: JSON.stringify({urls: foalUrls, watermark: storage.watermark}),
+            body: JSON.stringify({urls: foalUrls, use_watermark: storage.watermark}),
             headers: {'Content-Type': 'application/json'}
         });
         const data = await response.json();
@@ -205,7 +204,7 @@ async function mergeImage() {
             alert(`Realmerge error: ${data.message}`);
             return
         }
-        mergedFoalUrl = data.url;
+        mergedFoalUrl = data.merged;
     }
 
     // remove the top bar
