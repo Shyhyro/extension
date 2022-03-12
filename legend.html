@@ -1,70 +1,95 @@
 <!DOCTYPE html>
-<html style="width:350px">
+<html>
 <head>
-    <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="popout-style.css"/>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popout-style.css">
+  <style>
+    html, body {
+      text-align: center;
+      margin: auto;
+      max-width: 100%;
+      max-height: 100%;
+    }
+    #format-legend {
+      margin: auto;
+      max-width: 700px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      background: white;
+      border-radius: 15px;
+      text-align: left;
+    }
+    .head {
+      margin: auto;
+      max-width: 700px;
+      margin-top: 15px;
+      text-align: left;
+      font-size: 30px;
+    }
+  </style>
 </head>
-<body style="width:350px">
-    <h2 class="head"><a href="popout.html"><</a> Tagline Formatting Legend</h2>
-    <div style="padding:15px;padding-top:0px" id="format-legend">
-        <br>
-        <a href="legend-new-tab.html" target="_blank">↗️ Open in new tab</a>
-        <p>Use these placeholders to compose a tagline format for your horses. Go to the main page of this popout menu and replace the value under "Tagline Generator" to autosave what you've written.</p>
-        <h3>Conformation</h3>
-        <ul>
-            <li><code>{vg}</code> Very Good</li>
-            <li><code>{gs}</code> Good+</li>
-            <li><code>{g}</code> Good</li>
-            <li><code>{a}</code> Average</li>
-            <li><code>{ba}</code> Below Average</li>
-            <li><code>{p}</code> Poor</li>
-        </ul>
-        <h4>Scores</h4>
-        <ul>
-            <li><code>{hs}</code> Highest Visible</li>
-            <li><code>{ls}</code> Lowest Visible</li>
-        </ul>
-        <p>Append <code>_r0</code> through <code>_r3</code> to round a score's decimal places. e.g., <code>ls_r1</code> will round a score like 79.973 to 80.0.</p>
-        <hr>
-        <h3>Genetic Potential</h3>
-        <ul>
-            <li><code>{gp}</code> Genetic Potential</li>
-            <li><code>{dr}</code> Dressage</li>
-            <li><code>{dv}</code> Driving</li>
-            <li><code>{en}</code> Endurance</li>
-            <li><code>{ev}</code> Eventing</li>
-            <li><code>{rc}</code> Flat Racing</li>
-            <li><code>{sj}</code> Show Jumping</li>
-            <li><code>{re}</code> Western Reining</li>
-        </ul>
-        <h4>Percentages</h4>
-        <ul>
-            <li><code>{drp}</code> Dressage %</li>
-            <li><code>{dvp}</code> Driving %</li>
-            <li><code>{enp}</code> Endurance %</li>
-            <li><code>{evp}</code> Eventing %</li>
-            <li><code>{rcp}</code> Flat Racing %</li>
-            <li><code>{sjp}</code> Show Jumping %</li>
-            <li><code>{rep}</code> Western Reining %</li>
-        </ul>
-        <hr>
-        <h3>Other</h3>
-        <ul>
-            <li><code>{sex}</code> FILLY, COLT, STALLION, MARE, or GELDING</li>
-            <li><code>{ln}</code> Lifenumber</li>
-        </ul>
-        <h4>Breed Total</h4>
-        <ul>
-            <li><code>{bt}</code> Breed Total (overall GP)</li>
-            <li><code>{dr_bt}</code> Breed Total (Dressage)</li>
-            <li><code>{dv_bt}</code> Breed Total (Driving)</li>
-            <li><code>{en_bt}</code> Breed Total (Endurance)</li>
-            <li><code>{ev_bt}</code> Breed Total (Eventing)</li>
-            <li><code>{rc_bt}</code> Breed Total (Flat Racing)</li>
-            <li><code>{sj_bt}</code> Breed Total (Show Jumping)</li>
-            <li><code>{re_bt}</code> Breed Total (Western Reining)</li>
-        </ul>
-        <p>Append <code>_r0</code> through <code>_r3</code> to round a total's decimal places. e.g., <code>dr_bt_r1</code> will round a score like 53.38 to 53.4.</p>
+<body>
+  <h2 class="head">Tagline Formatting Legend</h2>
+  <div id="format-legend">
+    <div style="padding: 15px">
+      <p>Use these placeholders to compose a tagline format for your horses. Go to the popout menu and replace the value under "Tagline Generator" to autosave what you've written.</p>
+      <h3>Conformation</h3>
+      <ul>
+        <li><code>{vg}</code> Very Good</li>
+        <li><code>{gs}</code> Good+</li>
+        <li><code>{g}</code> Good</li>
+        <li><code>{ag}</code> All Good (<code>gs</code> + <code>g</code>)</li>
+        <li><code>{a}</code> Average</li>
+        <li><code>{ba}</code> Below Average</li>
+        <li><code>{p}</code> Poor</li>
+      </ul>
+      <h4>Scores</h4>
+      <ul>
+        <li><code>{hs}</code> Highest Visible</li>
+        <li><code>{ls}</code> Lowest Visible</li>
+      </ul>
+      <p>Append <code>_r0</code> through <code>_r3</code> to round a score's decimal places. e.g., <code>ls_r1</code> will round a score like 79.973 to 80.0.</p>
+      <hr>
+      <h3>Genetic Potential</h3>
+      <ul>
+        <li><code>{gp}</code> Genetic Potential</li>
+        <li><code>{dr}</code> Dressage</li>
+        <li><code>{dv}</code> Driving</li>
+        <li><code>{en}</code> Endurance</li>
+        <li><code>{ev}</code> Eventing</li>
+        <li><code>{rc}</code> Flat Racing</li>
+        <li><code>{sj}</code> Show Jumping</li>
+        <li><code>{re}</code> Western Reining</li>
+      </ul>
+      <h4>Percentages</h4>
+      <ul>
+        <li><code>{drp}</code> Dressage %</li>
+        <li><code>{dvp}</code> Driving %</li>
+        <li><code>{enp}</code> Endurance %</li>
+        <li><code>{evp}</code> Eventing %</li>
+        <li><code>{rcp}</code> Flat Racing %</li>
+        <li><code>{sjp}</code> Show Jumping %</li>
+        <li><code>{rep}</code> Western Reining %</li>
+      </ul>
+      <hr>
+      <h3>Other</h3>
+      <ul>
+        <li><code>{sex}</code> FILLY, COLT, STALLION, MARE, or GELDING</li>
+        <li><code>{ln}</code> Lifenumber</li>
+      </ul>
+      <h4>Breed Total</h4>
+      <ul>
+        <li><code>{bt}</code> Breed Total (overall GP)</li>
+        <li><code>{dr_bt}</code> Breed Total (Dressage)</li>
+        <li><code>{dv_bt}</code> Breed Total (Driving)</li>
+        <li><code>{en_bt}</code> Breed Total (Endurance)</li>
+        <li><code>{ev_bt}</code> Breed Total (Eventing)</li>
+        <li><code>{rc_bt}</code> Breed Total (Flat Racing)</li>
+        <li><code>{sj_bt}</code> Breed Total (Show Jumping)</li>
+        <li><code>{re_bt}</code> Breed Total (Western Reining)</li>
+      </ul>
+      <p>Append <code>_r0</code> through <code>_r3</code> to round a total's decimal places. e.g., <code>dr_bt_r1</code> will round a score like 53.38 to 53.4.</p>
     </div>
+  </div>
 </body>
 </html>

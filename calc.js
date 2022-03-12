@@ -419,8 +419,7 @@ async function preloadTabs() {
         if (doc.querySelector('.grid_6.half_block').children.length < 4) {
             lowestScore = '';
             highestScore = '';
-        }
-        else {
+        } else {
             for (const row of doc.querySelector('.grid_6.half_block').children) {
                 if (row.classList.contains('row_460')) {
                     let value = row.children[2].innerText;  // col_90, has image and value
@@ -568,6 +567,7 @@ function formatDataGenerator() {
         vg: qualityResults.very_good,
         gs: qualityResults.good_plus,
         g: qualityResults.good,
+        ag: qualityResults.good + qualityResults.good_plus,  // all good
         a: qualityResults.average,
         ba: qualityResults.below_average,
         p: qualityResults.poor,
