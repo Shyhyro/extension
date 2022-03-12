@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
 :root {
-    --bg: #eaf0f2;
+    --bg: rgb(241 245 249);
     --box-bg: white;
     --navy: #081b28;
     --green: #5fbf5f;
     --shadow-color: #e1e1e1;
 
-    --input-color: black;
+    --input-color: rgb(51 65 85);
     --input-background: #FEFEFE;
 
     --headers-buttons-text: white;
-    --primary-text: black;
+    --primary-text: rgb(51 65 85);
     --footer-text: #696969;
     --modal-footnote-text: #707275;
     --link-color: #4a7a9b;
@@ -222,8 +222,9 @@ h4.settings-section {
 .head {
     margin: 0;
     padding: 15px 15px 0px 15px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 600;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 800;
+    font-size: 1.5rem;
     font-style: normal;
 }
 
