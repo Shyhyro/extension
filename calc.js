@@ -591,6 +591,15 @@ function getSex() {
 function formatDataGenerator() {
     const breedTotal = (num, round) => {return (((Number(num) / 10) + highestScore) / 2).toPrecision(round)}
     const highScores = (num, round) => {if (num == '') {return num} else {return Number.parseFloat(num).toPrecision(round)}}
+    const prettyConformationStat = (stat) => {
+        const split = stat.toUpperCase().split('_')
+        let firstLetters = ''
+        for (const l of split) firstLetters += l[0]
+
+        return stat === 'good_plus'
+        ? 'G+'
+        : firstLetters
+    }
     if (breed === 'Icelandic Horse') rangeAmount = 6.09
 
     return {
@@ -602,6 +611,19 @@ function formatDataGenerator() {
         a: qualityResults.average,
         ba: qualityResults.below_average,
         p: qualityResults.poor,
+
+        wal: prettyConformationStat(qualityStats.walk),
+        trt: prettyConformationStat(qualityStats.trot),
+        can: prettyConformationStat(qualityStats.canter),
+        gal: prettyConformationStat(qualityStats.gallop),
+        pos: prettyConformationStat(qualityStats.posture),
+        hea: prettyConformationStat(qualityStats.head),
+        nck: prettyConformationStat(qualityStats.neck),
+        bck: prettyConformationStat(qualityStats.back),
+        sld: prettyConformationStat(qualityStats.shoulders),
+        flg: prettyConformationStat(qualityStats.frontlegs),
+        hdq: prettyConformationStat(qualityStats.hindquarters),
+        sck: prettyConformationStat(qualityStats.socks),
 
         // scores
         ls: lowestScore,
@@ -628,6 +650,17 @@ function formatDataGenerator() {
         rc: gpResults[4].value,
         sj: gpResults[5].value,
         re: gpResults[6].value,
+
+        acc: gpTraits.acceleration,
+        agi: gpTraits.agility,
+        bal: gpTraits.balance,
+        bas: gpTraits.bascule,
+        pul: gpTraits.pulling_power,
+        spd: gpTraits.speed,
+        spr: gpTraits.sprint,
+        sta: gpTraits.stamina,
+        str: gpTraits.strength,
+        sft: gpTraits.surefootedness,
 
         // percentages
         drp: confScores.dressage.percentage,
