@@ -49,8 +49,9 @@
       <ul>
         <li><code>{hs}</code> Highest Visible</li>
         <li><code>{ls}</code> Lowest Visible</li>
+        <li><code>{rng}</code> Score Range (adds 6.09 to <code>ls</code> if the horse is an Icelandic, else <code>6.928</code>)</li>
       </ul>
-      <p>Append <code>_r0</code> through <code>_r3</code> to round a score's decimal places. e.g., <code>ls_r1</code> will round a score like 79.973 to 80.0.</p>
+      <p>Append <code>_r0</code> through <code>_r2</code> to round a score's decimal places. e.g., <code>ls_r1</code> will round a score like 79.973 to 80.0.</p>
       <hr>
       <h3>Genetic Potential</h3>
       <ul>
@@ -76,7 +77,8 @@
       <hr>
       <h3>Other</h3>
       <ul>
-        <li><code>{sex}</code> FILLY, COLT, STALLION, MARE, or GELDING</li>
+        <li><code>{sex_l}</code> f, c, s, m, or g</li>
+        <li><code>{sex_u}</code> F, C, S, M, or G</li>
         <li><code>{ln}</code> Lifenumber</li>
       </ul>
       <h4>Breed Total</h4>
@@ -90,7 +92,7 @@
         <li><code>{sj_bt}</code> Breed Total (Show Jumping)</li>
         <li><code>{re_bt}</code> Breed Total (Western Reining)</li>
       </ul>
-      <p>Append <code>_r0</code> through <code>_r3</code> to round a total's decimal places. e.g., <code>dr_bt_r1</code> will round a score like 53.38 to 53.4.</p>
+      <p>Append <code>_r0</code> through <code>_r2</code> to round a total's decimal places. e.g., <code>dr_bt_r1</code> will round a score like 53.38 to 53.4.</p>
     </div>
   </div>
 </body>

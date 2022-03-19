@@ -90,7 +90,11 @@ let qualityStats = {};
 let confTraits = {};
 let lowestScore = null;
 let highestScore = null;
+let lowestResult = null;
+let highestResult = null;
 let geneticPotential = null;
+let breed = '';
+let rangeAmount = 6.928;
 const confScores = {
     dressage: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0},
     driving: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0},
@@ -416,11 +420,12 @@ async function preloadTabs() {
         conformationBox.children[0].innerHTML = conformationString
 
         // min & max show values
-        if (doc.querySelector('.grid_6.half_block').children.length < 4) {
+        const scoresBlock = doc.querySelector('.grid_6.half_block');
+        if (scoresBlock.children.length < 4) {
             lowestScore = '';
             highestScore = '';
         } else {
-            for (const row of doc.querySelector('.grid_6.half_block').children) {
+            for (const row of scoresBlock.children) {
                 if (row.classList.contains('row_460')) {
                     let value = row.children[2].innerText;  // col_90, has image and value
                     value = Number(value);
@@ -434,10 +439,34 @@ async function preloadTabs() {
         }
 
         if (lowestScore != '') {
-            const resultsBlock = doc.querySelector('.grid_6.half_block');
-            const showTitle = resultsBlock.children[0];
+            const showTitle = scoresBlock.children[0];
             showTitle.innerHTML = 'Latest 25 show results';
             showTitle.innerHTML += `<span style="float:right"><span style="color:gray;font-size:0.8em">Visible:</span> ${highestScore} / ${lowestScore}</span>`;
+        }
+
+        // min & max competition values
+        const resultsBlock = doc.getElementsByClassName('half_block')[1];
+        if (resultsBlock.children.length < 4) {
+            lowestResult = '';
+            highestResult = '';
+        } else {
+            for (const row of resultsBlock.children) {
+                if (row.classList.contains('row_460')) {
+                    let value = row.children[2].innerText;  // col_90, has image and value
+                    value = Number(value);
+                    if (!lowestResult) lowestResult = value;
+                    if (!highestResult) highestResult = value;
+
+                    if (value < lowestResult) lowestResult = value;
+                    else if (value > highestResult) highestResult = value;
+                }
+            }
+        }
+
+        if (lowestResult != '') {
+            const showTitle = resultsBlock.children[0];
+            showTitle.innerHTML = 'Latest 25 competition results';
+            showTitle.innerHTML += `<span style="float:right"><span style="color:gray;font-size:0.8em">Visible:</span> ${highestResult} / ${lowestResult}</span>`;
         }
 
         tab.innerHTML = doc.children[0].innerHTML;
@@ -539,29 +568,31 @@ function getSex() {
     isFoal();
     if (overall == 'Stallion') {
         if (horseIsFoal) {
-            return 'COLT'
+            return 'C'
         } else {
-            return 'STALLION'
+            return 'S'
         }
     } else if (overall == 'Gelding') {
         if (horseIsFoal) {
-            return 'COLT'  // I don't think this can happen
+            return 'C'  // I don't think this can happen
         } else {
-            return 'GELDING'
+            return 'G'
         }
     } else if (overall == 'Mare') {
         if (horseIsFoal) {
-            return 'FILLY'
+            return 'F'
         } else {
-            return 'MARE'
+            return 'M'
         }
     }
-    return 'UNKNOWN'
+    return '?'
 }
 
 function formatDataGenerator() {
     const breedTotal = (num, round) => {return (((Number(num) / 10) + highestScore) / 2).toPrecision(round)}
     const highScores = (num, round) => {if (num == '') {return num} else {return Number.parseFloat(num).toPrecision(round)}}
+    if (breed === 'Icelandic Horse') rangeAmount = 6.09
+
     return {
         // Conformation
         vg: qualityResults.very_good,
@@ -577,12 +608,16 @@ function formatDataGenerator() {
         ls_r0: highScores(lowestScore, 2),
         ls_r1: highScores(lowestScore, 3),
         ls_r2: highScores(lowestScore, 4),
-        ls_r3: highScores(lowestScore, 5),
         hs: highestScore,
         hs_r0: highScores(highestScore, 2),
         hs_r1: highScores(highestScore, 3),
         hs_r2: highScores(highestScore, 4),
-        hs_r3: highScores(highestScore, 5),
+
+        // range
+        rng: highScores(lowestScore + rangeAmount, 5),
+        rng_r0: highScores(lowestScore + rangeAmount, 2),
+        rng_r1: highScores(lowestScore + rangeAmount, 3),
+        rng_r2: highScores(lowestScore + rangeAmount, 4),
 
         // Genetic Potential
         gp: geneticPotential.trim(),
@@ -646,7 +681,8 @@ function formatDataGenerator() {
         re_bt_r2: breedTotal(gpResults[6].value, 4),
 
         // more other
-        sex: getSex(),
+        sex_u: getSex(),
+        sex_l: getSex().toLowerCase(),
         ln: document.querySelector('#hid').value
     }
 }
@@ -668,6 +704,9 @@ async function generateTaglineAndName() {
 }
 
 window.addEventListener('load', () => {
+    breed = document.getElementsByClassName('right')[1].innerText;
+    // Prone to breaking if more `right` elements are added that appear before this one
+
     getInitialTab();
 
     // implement our own listener for tab switching
