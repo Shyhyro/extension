@@ -600,6 +600,45 @@ function formatDataGenerator() {
         ? 'G+'
         : firstLetters
     }
+    const sumDiscipline = (discipline) => {
+        let has = 0
+        let requiredStats = []
+
+        switch (discipline) {
+            case 'dressage':
+                requiredStats = ['walk', 'trot', 'canter', 'posture']
+                break
+            case 'driving':
+                requiredStats = ['trot', 'back', 'shoulders', 'hindquarters']
+                break
+            case 'endurance':
+                requiredStats = ['walk', 'trot', 'canter', 'head', 'neck', 'back']
+                break
+            case 'eventing':
+                requiredStats = ['walk', 'trot', 'canter', 'posture', 'head', 'neck']
+                break
+            case 'flat_racing':
+                requiredStats = ['gallop', 'posture', 'neck', 'back', 'shoulders', 'frontlegs', 'hindquarters']
+                break
+            case 'show_jumping':
+                requiredStats = ['canter', 'back', 'shoulders', 'frontlegs', 'hindquarters']
+                break
+            case 'western_reining':
+                requiredStats = ['head', 'neck', 'shoulders', 'frontlegs', 'hindquarters']
+                break
+            default:
+                break
+        }
+
+        for (const stat of Object.keys(qualityStats)) {
+            const value = qualityStats[stat]
+            if (value == 'very_good') {
+                if (requiredStats.includes(stat)) has += 1
+            }
+        }
+
+        return `${has}/${requiredStats.length}`
+    }
     if (breed === 'Icelandic Horse') rangeAmount = 6.09
 
     return {
@@ -624,6 +663,14 @@ function formatDataGenerator() {
         flg: prettyConformationStat(qualityStats.frontlegs),
         hdq: prettyConformationStat(qualityStats.hindquarters),
         sck: prettyConformationStat(qualityStats.socks),
+
+        dr_vg: sumDiscipline('dressage'),
+        dv_vg: sumDiscipline('driving'),
+        en_vg: sumDiscipline('endurance'),
+        ev_vg: sumDiscipline('eventing'),
+        rc_vg: sumDiscipline('flat_racing'),
+        sj_vg: sumDiscipline('show_jumping'),
+        re_vg: sumDiscipline('western_reining'),
 
         // scores
         ls: lowestScore,
