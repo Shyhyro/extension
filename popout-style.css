@@ -62,7 +62,7 @@ a:hover {color: var(--link-color-hover)}
     box-shadow: var(--shadow-color) 8px 8px 15px;
 }
 input {font-family: roboto, sans-serif;}
-button {
+button.yellow {
     background: var(--button-background);
     border: none;
     color: var(--headers-buttons-text);
@@ -72,9 +72,15 @@ button {
     font-weight: bold;
     transition: background 0.2s;
 }
-button:hover {
+button.yellow.red {
+    background: rgb(230, 78, 78)
+}
+button.yellow:hover {
     background: var(--button-background-hover);
     transition: background 0.2s;
+}
+button.yellow.red:hover {
+    background: rgb(156, 38, 38)
 }
 /* footer section */
 #nav-drop-up {
