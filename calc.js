@@ -637,7 +637,7 @@ function formatDataGenerator() {
         ? 'G+'
         : firstLetters
     }
-    const sumDiscipline = (discipline) => {
+    const sumDiscipline = (discipline, requiredQualities) => {
         let has = 0
         let requiredStats = []
 
@@ -669,7 +669,7 @@ function formatDataGenerator() {
 
         for (const stat of Object.keys(qualityStats)) {
             const value = qualityStats[stat]
-            if (value == 'very_good') {
+            if (requiredQualities.includes(value)) {
                 if (requiredStats.includes(stat)) has += 1
             }
         }
@@ -701,13 +701,34 @@ function formatDataGenerator() {
         hdq: prettyConformationStat(qualityStats.hindquarters),
         sck: prettyConformationStat(qualityStats.socks),
 
-        dr_vg: sumDiscipline('dressage'),
-        dv_vg: sumDiscipline('driving'),
-        en_vg: sumDiscipline('endurance'),
-        ev_vg: sumDiscipline('eventing'),
-        rc_vg: sumDiscipline('flat_racing'),
-        sj_vg: sumDiscipline('show_jumping'),
-        re_vg: sumDiscipline('western_reining'),
+        dr_g: sumDiscipline('dressage', ['good']),
+        dr_gs: sumDiscipline('dressage', ['good_plus']),
+        dr_ag: sumDiscipline('dressage', ['good', 'good_plus']),
+        dr_vg: sumDiscipline('dressage', ['very_good']),
+        dv_g: sumDiscipline('driving', ['good']),
+        dv_gs: sumDiscipline('driving', ['good_plus']),
+        dv_ag: sumDiscipline('driving', ['good', 'good_plus']),
+        dv_vg: sumDiscipline('driving', ['very_good']),
+        en_g: sumDiscipline('endurance', ['good']),
+        en_gs: sumDiscipline('endurance', ['good_plus']),
+        en_ag: sumDiscipline('endurance', ['good', 'good_plus']),
+        en_vg: sumDiscipline('endurance', ['very_good']),
+        ev_g: sumDiscipline('eventing', ['good']),
+        ev_gs: sumDiscipline('eventing', ['good_plus']),
+        ev_ag: sumDiscipline('eventing', ['good', 'good_plus']),
+        ev_vg: sumDiscipline('eventing', ['very_good']),
+        rc_g: sumDiscipline('flat_racing', ['good']),
+        rc_gs: sumDiscipline('flat_racing', ['good_plus']),
+        rc_ag: sumDiscipline('flat_racing', ['good', 'good_plus']),
+        rc_vg: sumDiscipline('flat_racing', ['very_good']),
+        sj_g: sumDiscipline('show_jumping', ['good']),
+        sj_gs: sumDiscipline('show_jumping', ['good_plus']),
+        sj_ag: sumDiscipline('show_jumping', ['good', 'good_plus']),
+        sj_vg: sumDiscipline('show_jumping', ['very_good']),
+        re_g: sumDiscipline('western_reining', ['good']),
+        re_gs: sumDiscipline('western_reining', ['good_plus']),
+        re_ag: sumDiscipline('western_reining', ['good', 'good_plus']),
+        re_vg: sumDiscipline('western_reining', ['very_good']),
 
         // scores
         ls: lowestScore,

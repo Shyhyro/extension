@@ -40,7 +40,7 @@
         <li><code>{vg}</code> Very Good</li>
         <li><code>{gs}</code> Good+</li>
         <li><code>{g}</code> Good</li>
-        <li><code>{ag}</code> All Goods (<code>gs</code> + <code>g</code>)</li>
+        <li><code>{ag}</code> All Goods (<code>g</code> + <code>gs</code>)</li>
         <li><code>{a}</code> Average</li>
         <li><code>{ba}</code> Below Average</li>
         <li><code>{p}</code> Poor</li>
@@ -60,21 +60,22 @@
         <li><code>{hdq}</code> Hindquarters</li>
         <li><code>{sck}</code> Socks</li>
       </ul>
-      <h4>Very Goods in Discipline Summaries</h4>
+      <h4>Conformation Stats in Discipline Summaries</h4>
       <ul>
-        <li><code>{dr_vg}</code> Dressage</li>
-        <li><code>{dv_vg}</code> Driving</li>
-        <li><code>{en_vg}</code> Endurance</li>
-        <li><code>{ev_vg}</code> Eventing</li>
-        <li><code>{rc_vg}</code> Flat_racing</li>
-        <li><code>{sj_vg}</code> Show_jumping</li>
-        <li><code>{re_vg}</code> Western_reining</li>
+        <li><code>{dr_g}</code> Dressage</li>
+        <li><code>{dv_g}</code> Driving</li>
+        <li><code>{en_g}</code> Endurance</li>
+        <li><code>{ev_g}</code> Eventing</li>
+        <li><code>{rc_g}</code> Flat racing</li>
+        <li><code>{sj_g}</code> Show jumping</li>
+        <li><code>{re_g}</code> Western reining</li>
       </ul>
+      <p>Use <code>g</code> for Good or replace it with <code>gs</code>, <code>ag</code>, or <code>vg</code> to use the values for Good+, All Goods (<code>g</code> + <code>gs</code>), or Very Good, respectively.</p>
       <h4>Scores</h4>
       <ul>
         <li><code>{hs}</code> Highest Visible</li>
         <li><code>{ls}</code> Lowest Visible</li>
-        <li><code>{rng}</code> Score Range (adds 6.09 to <code>ls</code> if the horse is an Icelandic, else <code>6.928</code>)</li>
+        <li><code>{rng}</code> Score Range (adds <code>6.062</code> to <code>ls</code> if the horse is an Icelandic, else <code>6.928</code>)</li>
       </ul>
       <p>Append <code>_r0</code> through <code>_r2</code> to round a score's decimal places. e.g., <code>ls_r1</code> will round a score like 79.973 to 80.0.</p>
       <hr>
