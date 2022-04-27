@@ -1,26 +1,7 @@
-const hrUrlRegex = /^https:\/\/(v2\.|www\.)?horsereality\.(com|nl)\/horses\/(\d{1,10})\/.*/;
+const hrUrlRegex = /^https:\/\/(v2\.|www\.)?horsereality\.com\/horses\/(\d{1,10})\/.*/;
 const realtoolsDomain = 'https://realtools.shay.cat';
 const realtoolsAPI = 'https://rt-api.shay.cat/v2';
 const storage = {};
-
-// https://github.com/discohook/site/blob/main/common/base64/base64Encode.ts
-function base64Encode(utf8) {
-    const encoded = encodeURIComponent(utf8);
-
-    const escaped = encoded.replace(/%[\dA-F]{2}/g, hex => {
-      return String.fromCharCode(Number.parseInt(hex.slice(1), 16));
-    });
-
-    return btoa(escaped)
-}
-
-// https://github.com/discohook/site/blob/main/common/base64/base64UrlEncode.ts
-function base64UrlEncode(utf8) {
-    return base64Encode(utf8)
-        .replace(/\+/g, "-")
-        .replace(/\//g, "_")
-        .replace(/=/g, "")
-}
 
 function dissectUrl(url) {
     const split = url.split('/');
@@ -39,103 +20,77 @@ function dissectUrl(url) {
     }
 }
 
-function generateMultiData(parent_class) {
-    const data = {
-        id: document.querySelector('#hid').value,
-        name: document.title.replace(' - Horse Reality', ''),
-        source: 'Horse Reality via Extension',
-        layers: []
-    };
-    let index = 0;
-    for (const img of document.querySelector(parent_class).children) {
-        if (img.src.indexOf('blank.png') != -1) {
-            continue
-        }
-        const layer = dissectUrl(img.src);
-        layer.index = index;
-        data.layers.push(layer);
-        index += 1;
-    }
-    return base64UrlEncode(JSON.stringify(data))
-}
-
 function initButtons() {
     const mergeButton = document.querySelector('#realtools-merge-button');
     if (mergeButton) return;
-    const pane = document.getElementsByClassName('horse_left')[0];
 
-    function createMergeButton() {
-        const button = document.createElement('button');
-        button.classList = 'yellow';
-        button.id = 'realtools-merge-button';
-        button.title = 'with Realmerge! :)';
-        button.form = null;
-        button.onclick = () => {mergeImageStorageContainer()};
-        const text = document.createTextNode('Merge');
-        button.appendChild(text);
-
-        pane.insertBefore(button, pane.children[1]);
+    function createMergeLink() {
+        const a = document.createElement('a')
+        a.id = 'realtools-merge-button'
+        a.href = 'javascript:void(0)'
+        a.onclick = mergeImageStorageContainer
+        a.innerText = 'Merge'
+        a.title = 'with Realmerge! :)'
+        return a
     }
 
-    function createMultiButton(parent_class, name='Multi') {
-        const linkWrap = document.createElement('a');
-        linkWrap.href = `${realtoolsDomain}/merge/multi?data=${generateMultiData(parent_class)}`;
-        linkWrap.target = '_blank';
-
-        const button = document.createElement('button');
-        button.classList = 'yellow';
-        button.id = `realtools-multi-button-${name}`;
-        button.form = null;
-        const text = document.createTextNode(name);
-        button.appendChild(text);
-
-        linkWrap.appendChild(button);
-        return linkWrap
+    function createMultiLink(name='Multi', useFoal=false) {
+        const a = document.createElement('a')
+        a.id = `realtools-multi-button-${name}`
+        a.href = `${realtoolsDomain}/merge/multi?start=${document.querySelector('#hid').value}`
+        if (useFoal) {
+            a.href += '&foal=true'
+        }
+        a.target = '_blank'
+        a.innerText = name
+        return a
     }
 
-    function createVisionButton() {
-        const linkWrap = document.createElement('a');
-        linkWrap.href = `${realtoolsDomain}/vision?share=${document.querySelector('#hid').value}`;
-        linkWrap.target = '_blank';
-
-        const button = document.createElement('button');
-        button.classList = 'yellow';
-        button.id = `realtools-vision-button`;
-        button.form = null;
-        const text = document.createTextNode('Vision');
-        button.appendChild(text);
-
-        linkWrap.appendChild(button);
-        return linkWrap
+    function createVisionLink() {
+        const a = document.createElement('a')
+        a.id = 'realtools-vision-button'
+        a.href = `${realtoolsDomain}/vision?share=${document.querySelector('#hid').value}`
+        a.target = '_blank'
+        a.innerText = 'Vision'
+        return a
     }
 
     function createRealtoolsSection() {
-        const div = document.createElement('div');
-        div.classList = ['infotext realtools-left-section'];
+        const div = document.querySelector('.infotext')
 
-        const title = document.createElement('h2');
-        title.appendChild(document.createTextNode('Realtools'));
-        div.appendChild(title);
+        let lastCell = document.querySelectorAll('.infotext .right')
+        lastCell = lastCell[lastCell.length - 1]
+        if (!lastCell.innerText) lastCell.innerText = '\u200b'
 
-        const multiButton = createMultiButton('.horse_photocon>.horse_photo');
-        div.appendChild(multiButton);
+        const left = document.createElement('div')
+        left.classList = 'left'
+        left.appendChild(document.createTextNode('Realtools'))
 
-        if (document.querySelector('.horse_photocon.foal')) {
-            multiButton.children[0].innerText = 'Multi (mare)';
-            div.appendChild(document.createTextNode(' '));
-            const multiFoalButton = createMultiButton('.horse_photocon.foal>.horse_photo', 'Multi (foal)');
-            div.appendChild(multiFoalButton);
+        const right = document.createElement('div')
+        right.classList = 'right'
+
+        right.appendChild(createMergeLink())
+        right.appendChild(document.createTextNode(', '))
+
+        const hasFoal = !!document.querySelector('.horse_photocon.foal')
+        let n = 'Multi'
+        if (hasFoal) n = 'Multi (mare)'
+        const multiLink = createMultiLink(n)
+        right.appendChild(multiLink)
+
+        if (hasFoal) {
+            right.appendChild(document.createTextNode(', '))
+            right.appendChild(createMultiLink('Multi (foal)', true))
         }
 
         if (document.querySelector('.foal')) {
-            div.appendChild(document.createTextNode(' '));
-            const button = createVisionButton();
-            div.appendChild(button);
+            right.appendChild(document.createTextNode(', '))
+            right.appendChild(createVisionLink())
         }
 
-        pane.insertBefore(div, pane.children[-1]);
+        div.appendChild(left)
+        div.appendChild(right)
     }
-    createMergeButton();
     createRealtoolsSection();
 }
 
@@ -154,8 +109,9 @@ async function mergeImage() {
     const mergeButton = document.querySelector('#realtools-merge-button');
     if (!mergeButton) return;
 
-    mergeButton.innerText = 'Merging...';
-    mergeButton.disabled = 'true';
+    mergeButton.innerText = 'Merging...'
+    mergeButton.removeAttribute('href')
+    mergeButton.onclick = null
 
     adultUrls = [];
     foalUrls = [];
@@ -266,8 +222,7 @@ async function mergeImage() {
     tab_a.appendChild(tab);
     tabnav.appendChild(tab_a);
 
-    // remove the button, you only need to merge once silly
-    mergeButton.remove();
+    mergeButton.innerText = 'Merged'
 }
 
 if (hrUrlRegex.test(window.location.href)) {
