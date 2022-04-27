@@ -676,7 +676,7 @@ function formatDataGenerator() {
 
         return `${has}/${requiredStats.length}`
     }
-    if (breed === 'Icelandic Horse') rangeAmount = 6.092
+    if (breed === 'Icelandic Horse') rangeAmount = 6.062
 
     return {
         // Conformation
