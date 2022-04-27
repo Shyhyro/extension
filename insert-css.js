@@ -1,8 +1,8 @@
 const css = `
 /* hr overrides */
 .horse_left h1 {display: inline}
-.horse_left {width: 290px}
-.looking_at {margin-left: 350px; width: 570px}
+.horse_left {width: 230px}
+.looking_at {margin-left: 290px; width: 630px}
 button.yellow, input[type=submit].yellow {transition: background-color 0.2s}
 .horse_photocon.foal.realmerge-photocon {width: 261px; height: 515px; margin: 0}
 .horse_photocon.foal.realmerge-photocon>.horse_photo {margin: 0; width: 0; position: static}
