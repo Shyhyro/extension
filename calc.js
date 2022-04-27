@@ -257,19 +257,28 @@ async function preloadTabs() {
             let divideAmount = 1
             switch (traitNameUsable) {
                 case 'dressage':
-                    divideAmount = 3; break
+                    divideAmount = 3
+                    break
                 case 'driving':
-                    divideAmount = 5; break
+                    divideAmount = 5
+                    break
                 case 'endurance':
-                    divideAmount = 4; break
+                    divideAmount = 4
+                    break
                 case 'eventing':
-                    divideAmount = 5; break
+                    divideAmount = 5
+                    break
                 case 'flat_racing':
-                    divideAmount = 4; break
+                    divideAmount = 4
+                    break
                 case 'show_jumping':
-                    divideAmount = 5; break
+                    divideAmount = 5
+                    break
                 case 'western_reining':
-                    divideAmount = 4; break
+                    divideAmount = 4
+                    break
+                default:
+                    break
             }
             confScores[traitNameUsable].value = calculated.value;
             confScores[traitNameUsable].average = calculated.value / divideAmount;
@@ -485,35 +494,63 @@ async function preloadTabs() {
         const formattedStrings = await generateTaglineAndName();
         function tagline() {
             const taglineInput = document.querySelector('#changetagline');
-            if (!taglineInput) {
-                return
-            }
-            taglineInput.placeholder = formattedStrings.tagline;
+            if (!taglineInput) return
 
-            const fillTaglineButton = document.createElement('button');
-            fillTaglineButton.id = 'realtools-use-tagline-button';
-            fillTaglineButton.style.lineHeight = '16px';
-            fillTaglineButton.style.fontSize = '10px';
-            fillTaglineButton.onclick = () => {taglineInput.value = formattedStrings.tagline}
-            fillTaglineButton.appendChild(document.createTextNode('Fill auto-tagline'))
-            fillTaglineButton.form = null;
-            taglineInput.parentNode.appendChild(fillTaglineButton);
+            taglineInput.placeholder = formattedStrings.taglines.default
+
+            const fillTagline = document.createElement('select')
+            const defOption = document.createElement('option')
+            defOption.innerText = 'Select a preset'
+            defOption.selected = true
+            defOption.disabled = true
+            defOption.value = null
+            fillTagline.appendChild(defOption)
+
+            for (const title of Object.keys(formattedStrings.taglines)) {
+                const option = document.createElement('option')
+                option.innerText = title
+                option.value = formattedStrings.taglines[title]
+                fillTagline.appendChild(option)
+            }
+
+            fillTagline.id = 'realtools-use-tagline-button'
+            fillTagline.onchange = () => {
+                taglineInput.value = fillTagline.selectedOptions[0].value
+                taglineInput.placeholder = fillTagline.selectedOptions[0].value
+            }
+            fillTagline.appendChild(document.createTextNode('Fill auto-tagline'))
+            fillTagline.form = null
+            taglineInput.parentNode.appendChild(fillTagline)
         }
         function name() {
             const nameInput = document.querySelector('#changename');
-            if (!nameInput) {
-                return
-            }
-            nameInput.placeholder = formattedStrings.name;
+            if (!nameInput) return
 
-            const fillNameButton = document.createElement('button');
-            fillNameButton.id = 'realtools-use-name-button';
-            fillNameButton.style.lineHeight = '16px';
-            fillNameButton.style.fontSize = '10px';
-            fillNameButton.onclick = () => {nameInput.value = formattedStrings.name}
-            fillNameButton.appendChild(document.createTextNode('Fill auto-name'))
-            fillNameButton.form = null;
-            nameInput.parentNode.appendChild(fillNameButton);
+            nameInput.placeholder = formattedStrings.names.default
+
+            const fillName = document.createElement('select')
+            const defOption = document.createElement('option')
+            defOption.innerText = 'Select a preset'
+            defOption.selected = true
+            defOption.disabled = true
+            defOption.value = null
+            fillName.appendChild(defOption)
+
+            for (const title of Object.keys(formattedStrings.names)) {
+                const option = document.createElement('option')
+                option.innerText = title
+                option.value = formattedStrings.names[title]
+                fillName.appendChild(option)
+            }
+
+            fillName.id = 'realtools-use-name-button'
+            fillName.onchange = () => {
+                nameInput.value = fillName.selectedOptions[0].value
+                nameInput.placeholder = fillName.selectedOptions[0].value
+            }
+            fillName.appendChild(document.createTextNode('Fill auto-name'))
+            fillName.form = null
+            nameInput.parentNode.appendChild(fillName)
         }
         tagline();
         name();
@@ -639,7 +676,7 @@ function formatDataGenerator() {
 
         return `${has}/${requiredStats.length}`
     }
-    if (breed === 'Icelandic Horse') rangeAmount = 6.09
+    if (breed === 'Icelandic Horse') rangeAmount = 6.092
 
     return {
         // Conformation
@@ -770,16 +807,30 @@ function formatDataGenerator() {
 async function generateTaglineAndName() {
     // get storage
     const storageData = await browser.storage.sync.get('realtoolsSettings');
+
     Object.assign(storage, storageData.realtoolsSettings);
     if (typeof storage.watermark == 'undefined') {storage.watermark = true}
-    storage.taglineFormat = storage.taglineFormat || '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P';
-    storage.nameFormat = storage.nameFormat || '{ln}';
+
+    storage.nameFormats = storage.nameFormats || {default: '{ln}'}
+    storage.taglineFormats = storage.taglineFormats || {default: '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P'}
+    //storage.nameFormats.default = storage.nameFormats.default || '{ln}'
+    //storage.taglineFormats.default = storage.taglineFormats.default || '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P'
+
+    const formattedNames = {}
+    const formattedTaglines = {}
+    const formatData = formatDataGenerator()
+
+    for (const title of Object.keys(storage.nameFormats)) {
+        formattedNames[title] = storage.nameFormats[title].format(formatData)
+    }
+    for (const title of Object.keys(storage.taglineFormats)) {
+        formattedTaglines[title] = storage.taglineFormats[title].format(formatData)
+    }
 
     // compile format data
-    const formatData = formatDataGenerator();
     return {
-        name: storage.nameFormat.format(formatData),
-        tagline: storage.taglineFormat.format(formatData)
+        names: formattedNames,
+        taglines: formattedTaglines,
     }
 }
 

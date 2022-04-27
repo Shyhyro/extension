@@ -18,12 +18,15 @@
         <h3>Generators</h3>
         <p>Use placeholder values (designated by curly brackets) to compose a name/tagline format for your horses.</p>
         <a href="legend.html" target="_blank">🔗 Open legend</a>
-        <br><br>
-        <h4>Name</h4>
-        <input type="text" id="settings-name-format"/>
-        <br><br>
-        <h4>Tagline</h4>
-        <input type="text" id="settings-tagline-format"/>
+        <br/>
+        <br/>
+        <h4>Name <select id="presets-select-name"></select> <button class="yellow" id="presets-select-name-new">New</button> <button class="yellow red" id="presets-select-name-del">Delete</button></h4>
+        <input type="text" id="settings-name-format" data-preset-title="default"/>
+        <p style="font-size:small"><b>Example:</b> <span id="settings-name-format-preview"></span></p>
+        <br/>
+        <h4>Tagline <select id="presets-select-tagline"></select> <button class="yellow" id="presets-select-tagline-new">New</button> <button class="yellow red" id="presets-select-tagline-del">Delete</button></h4>
+        <input type="text" id="settings-tagline-format" data-preset-title="default"/>
+        <p style="font-size:small"><b>Example:</b> <span id="settings-tagline-format-preview"></span></p>
         <h3>Advanced</h3>
         <input type="checkbox" id="settings-id-display">
         <label for="settings-id-display">Show layer IDs</label>
