@@ -676,7 +676,10 @@ function formatDataGenerator() {
 
         return `${has}/${requiredStats.length}`
     }
+
     if (breed === 'Icelandic Horse') rangeAmount = 6.062
+    let lowestScorePlusRange = lowestScore
+    if (lowestScore) lowestScorePlusRange += rangeAmount
 
     return {
         // Conformation
@@ -741,10 +744,10 @@ function formatDataGenerator() {
         hs_r2: highScores(highestScore, 4),
 
         // range
-        rng: highScores(lowestScore + rangeAmount, 5),
-        rng_r0: highScores(lowestScore + rangeAmount, 2),
-        rng_r1: highScores(lowestScore + rangeAmount, 3),
-        rng_r2: highScores(lowestScore + rangeAmount, 4),
+        rng: highScores(lowestScorePlusRange, 5),
+        rng_r0: highScores(lowestScorePlusRange, 2),
+        rng_r1: highScores(lowestScorePlusRange, 3),
+        rng_r2: highScores(lowestScorePlusRange, 4),
 
         // Genetic Potential
         gp: geneticPotential.trim(),
