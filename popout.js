@@ -339,8 +339,8 @@ async function init() {
     else {idDisplayCheck.checked = false}
 
     // Formatting
-    storage.taglineFormats = storage.taglineFormats || {default: '{ln}'}
-    storage.nameFormats = storage.nameFormats || {default: '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P'}
+    storage.nameFormats = storage.nameFormats || {default: '{ln}'}
+    storage.taglineFormats = storage.taglineFormats || {default: '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P'}
 
     watermarkCheck.addEventListener('click', (event) => {
         storage.watermark = event.target.checked;
