@@ -604,7 +604,7 @@ function getInitialTab() {
 
 function isFoal() {
     const looking_at = document.querySelector('.looking_at');
-    if (looking_at && looking_at.classList == ['looking_at']) {
+    if (looking_at && looking_at.classList == 'looking_at') {
         // mare & foal using banner
         horseIsFoal = looking_at.innerText.indexOf('foal') != -1;
     } else if (document.querySelector('.horse_photocon.foal') && document.querySelector('.icon16').alt != 'Mare') {
