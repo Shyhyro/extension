@@ -6,6 +6,7 @@ const nameFormatPreview = document.querySelector('#settings-name-format-preview'
 const taglineFormat = document.querySelector('#settings-tagline-format');
 const taglineFormatPreview = document.querySelector('#settings-tagline-format-preview');
 const idDisplayCheck = document.querySelector('#settings-id-display');
+const debugOptionsCheck = document.querySelector('#settings-debug-options');
 
 String.prototype.format = function() {
     "use strict";
@@ -337,6 +338,8 @@ async function init() {
     else {removeWhitesCheck.checked = false}
     if (typeof storage.enable_id_display != 'undefined') {idDisplayCheck.checked = Boolean(storage.enable_id_display)}
     else {idDisplayCheck.checked = false}
+    if (typeof storage.show_debug_options != 'undefined') {debugOptionsCheck.checked = Boolean(storage.show_debug_options)}
+    else {debugOptionsCheck.checked = false}
 
     // Formatting
     storage.nameFormats = storage.nameFormats || {default: '{ln}'}
@@ -362,6 +365,10 @@ async function init() {
     })
     idDisplayCheck.addEventListener('click', (event) => {
         storage.enable_id_display = event.target.checked;
+        browser.storage.sync.set({realtoolsSettings: storage});
+    })
+    debugOptionsCheck.addEventListener('click', (event) => {
+        storage.show_debug_options = event.target.checked;
         browser.storage.sync.set({realtoolsSettings: storage});
     })
 

@@ -554,6 +554,23 @@ async function preloadTabs() {
         }
         tagline();
         name();
+
+        if (storage.show_debug_options === true) {
+            // Holds the update button
+            const container = document.querySelector('.update-horseinfo').parentNode
+
+            const debugButton = document.createElement('button')
+            debugButton.innerText = 'Print values'
+            debugButton.onclick = () => {
+                console.log(formattedStrings)
+                console.log(formatDataGenerator())
+            }
+            debugButton.classList = 'dark'
+            debugButton.form = null
+            debugButton.style = 'margin-left: 4px;'
+
+            container.appendChild(debugButton)
+        }
     }
 
     const geneticsTab = document.getElementById('tab_genetics2');
