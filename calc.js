@@ -643,7 +643,8 @@ function getSex() {
 }
 
 function formatDataGenerator() {
-    const breedTotal = (num, round) => {return (((Number(num) / 10) + highestScore) / 2).toPrecision(round)}
+    const breedTotal = (gp, gpStatsCount, round) => {return (((Number(gp) / gpStatsCount) + highestScore) / 2).toPrecision(round)}
+    const overallBreedTotal = (gp, gpStatsCount, round) => {return (((Number(geneticPotential) / 10) + highestScore + (Number(gp) / gpStatsCount)) / 3).toPrecision(round)}
     const highScores = (num, round) => {if (num == '') {return num} else {return Number.parseFloat(num).toPrecision(round)}}
     const prettyConformationStat = (stat) => {
         const split = stat.toUpperCase().split('_')
@@ -797,46 +798,74 @@ function formatDataGenerator() {
         rep: confScores.western_reining.percentage,
 
         // Other
-        // breed total
-        bt: breedTotal(geneticPotential.trim(), 4),
-        bt_r0: breedTotal(geneticPotential.trim(), 2),
-        bt_r1: breedTotal(geneticPotential.trim(), 3),
-        bt_r2: breedTotal(geneticPotential.trim(), 4),
+        // breed total & overall breed total
+        bt: breedTotal(geneticPotential.trim(), 10, 4),
+        bt_r0: breedTotal(geneticPotential.trim(), 10, 2),
+        bt_r1: breedTotal(geneticPotential.trim(), 10, 3),
+        bt_r2: breedTotal(geneticPotential.trim(), 10, 4),
 
-        dr_bt: breedTotal(gpResults[0].value, 4),
-        dr_bt_r0: breedTotal(gpResults[0].value, 2),
-        dr_bt_r1: breedTotal(gpResults[0].value, 3),
-        dr_bt_r2: breedTotal(gpResults[0].value, 4),
+        dr_bt: breedTotal(gpResults[0].value, 3, 4),
+        dr_bt_r0: breedTotal(gpResults[0].value, 3, 2),
+        dr_bt_r1: breedTotal(gpResults[0].value, 3, 3),
+        dr_bt_r2: breedTotal(gpResults[0].value, 3, 4),
+        dr_obt: overallBreedTotal(gpResults[0].value, 3, 4),
+        dr_obt_r0: overallBreedTotal(gpResults[0].value, 3, 2),
+        dr_obt_r1: overallBreedTotal(gpResults[0].value, 3, 3),
+        dr_obt_r2: overallBreedTotal(gpResults[0].value, 3, 4),
 
-        dv_bt: breedTotal(gpResults[1].value, 4),
-        dv_bt_r0: breedTotal(gpResults[1].value, 2),
-        dv_bt_r1: breedTotal(gpResults[1].value, 3),
-        dv_bt_r2: breedTotal(gpResults[1].value, 4),
+        dv_bt: breedTotal(gpResults[1].value, 5, 4),
+        dv_bt_r0: breedTotal(gpResults[1].value, 5, 2),
+        dv_bt_r1: breedTotal(gpResults[1].value, 5, 3),
+        dv_bt_r2: breedTotal(gpResults[1].value, 5, 4),
+        dv_obt: overallBreedTotal(gpResults[1].value, 5, 4),
+        dv_obt_r0: overallBreedTotal(gpResults[1].value, 5, 2),
+        dv_obt_r1: overallBreedTotal(gpResults[1].value, 5, 3),
+        dv_obt_r2: overallBreedTotal(gpResults[1].value, 5, 4),
 
-        en_bt: breedTotal(gpResults[2].value, 4),
-        en_bt_r0: breedTotal(gpResults[2].value, 2),
-        en_bt_r1: breedTotal(gpResults[2].value, 3),
-        en_bt_r2: breedTotal(gpResults[2].value, 4),
+        en_bt: breedTotal(gpResults[2].value, 4, 4),
+        en_bt_r0: breedTotal(gpResults[2].value, 4, 2),
+        en_bt_r1: breedTotal(gpResults[2].value, 4, 3),
+        en_bt_r2: breedTotal(gpResults[2].value, 4, 4),
+        en_obt: overallBreedTotal(gpResults[2].value, 4, 4),
+        en_obt_r0: overallBreedTotal(gpResults[2].value, 4, 2),
+        en_obt_r1: overallBreedTotal(gpResults[2].value, 4, 3),
+        en_obt_r2: overallBreedTotal(gpResults[2].value, 4, 4),
 
-        ev_bt: breedTotal(gpResults[3].value, 4),
-        ev_bt_r0: breedTotal(gpResults[3].value, 2),
-        ev_bt_r1: breedTotal(gpResults[3].value, 3),
-        ev_bt_r2: breedTotal(gpResults[3].value, 4),
+        ev_bt: breedTotal(gpResults[3].value, 5, 4),
+        ev_bt_r0: breedTotal(gpResults[3].value, 5, 2),
+        ev_bt_r1: breedTotal(gpResults[3].value, 5, 3),
+        ev_bt_r2: breedTotal(gpResults[3].value, 5, 4),
+        ev_obt: overallBreedTotal(gpResults[3].value, 5, 4),
+        ev_obt_r0: overallBreedTotal(gpResults[3].value, 5, 2),
+        ev_obt_r1: overallBreedTotal(gpResults[3].value, 5, 3),
+        ev_obt_r2: overallBreedTotal(gpResults[3].value, 5, 4),
 
-        rc_bt: breedTotal(gpResults[4].value, 4),
-        rc_bt_r0: breedTotal(gpResults[4].value, 2),
-        rc_bt_r1: breedTotal(gpResults[4].value, 3),
-        rc_bt_r2: breedTotal(gpResults[4].value, 4),
+        rc_bt: breedTotal(gpResults[4].value, 4, 4),
+        rc_bt_r0: breedTotal(gpResults[4].value, 4, 2),
+        rc_bt_r1: breedTotal(gpResults[4].value, 4, 3),
+        rc_bt_r2: breedTotal(gpResults[4].value, 4, 4),
+        rc_obt: overallBreedTotal(gpResults[4].value, 4, 4),
+        rc_obt_r0: overallBreedTotal(gpResults[4].value, 4, 2),
+        rc_obt_r1: overallBreedTotal(gpResults[4].value, 4, 3),
+        rc_obt_r2: overallBreedTotal(gpResults[4].value, 4, 4),
 
-        sj_bt: breedTotal(gpResults[5].value, 4),
-        sj_bt_r0: breedTotal(gpResults[5].value, 2),
-        sj_bt_r1: breedTotal(gpResults[5].value, 3),
-        sj_bt_r2: breedTotal(gpResults[5].value, 4),
+        sj_bt: breedTotal(gpResults[5].value, 5, 4),
+        sj_bt_r0: breedTotal(gpResults[5].value, 5, 2),
+        sj_bt_r1: breedTotal(gpResults[5].value, 5, 3),
+        sj_bt_r2: breedTotal(gpResults[5].value, 5, 4),
+        sj_obt: overallBreedTotal(gpResults[5].value, 5, 4),
+        sj_obt_r0: overallBreedTotal(gpResults[5].value, 5, 2),
+        sj_obt_r1: overallBreedTotal(gpResults[5].value, 5, 3),
+        sj_obt_r2: overallBreedTotal(gpResults[5].value, 5, 4),
 
-        re_bt: breedTotal(gpResults[6].value, 4),
-        re_bt_r0: breedTotal(gpResults[6].value, 2),
-        re_bt_r1: breedTotal(gpResults[6].value, 3),
-        re_bt_r2: breedTotal(gpResults[6].value, 4),
+        re_bt: breedTotal(gpResults[6].value, 4, 4),
+        re_bt_r0: breedTotal(gpResults[6].value, 4, 2),
+        re_bt_r1: breedTotal(gpResults[6].value, 4, 3),
+        re_bt_r2: breedTotal(gpResults[6].value, 4, 4),
+        re_obt: overallBreedTotal(gpResults[6].value, 4, 4),
+        re_obt_r0: overallBreedTotal(gpResults[6].value, 4, 2),
+        re_obt_r1: overallBreedTotal(gpResults[6].value, 4, 3),
+        re_obt_r2: overallBreedTotal(gpResults[6].value, 4, 4),
 
         // more other
         sex_u: getSex(),

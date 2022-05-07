@@ -130,6 +130,19 @@
         <li><code>{rc_bt}</code> Breed Total (Flat Racing)</li>
         <li><code>{sj_bt}</code> Breed Total (Show Jumping)</li>
         <li><code>{re_bt}</code> Breed Total (Western Reining)</li>
+        <li><code>{dr_obt}</code> Overall Breed Total (Dressage)</li>
+        <li><code>{dv_obt}</code> Overall Breed Total (Driving)</li>
+        <li><code>{en_obt}</code> Overall Breed Total (Endurance)</li>
+        <li><code>{ev_obt}</code> Overall Breed Total (Eventing)</li>
+        <li><code>{rc_obt}</code> Overall Breed Total (Flat Racing)</li>
+        <li><code>{sj_obt}</code> Overall Breed Total (Show Jumping)</li>
+        <li><code>{re_obt}</code> Overall Breed Total (Western Reining)</li>
+      </ul>
+      <strong>Breed Total Formulas</strong>
+      <ul>
+        <li>Breed total: <code>((GP / 10) + HighestScore) / 2</code></li>
+        <li>Discipline breed total: <code>((DisciplineGP / NumberOfTraits) + HighestScore) / 2</code></li>
+        <li>Overall breed total: <code>((GP / 10) + HighestScore + (DisciplineGP / NumberOfTraits)) / 3</code></li>
       </ul>
       <p>Append <code>_r0</code> through <code>_r2</code> to round a total's decimal places. e.g., <code>dr_bt_r1</code> will round a score like 53.38 to 53.4.</p>
     </div>
