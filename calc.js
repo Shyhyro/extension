@@ -643,8 +643,8 @@ function getSex() {
 }
 
 function formatDataGenerator() {
-    const breedTotal = (gp, gpStatsCount, round) => {return (((Number(gp) / gpStatsCount) + highestScore) / 2).toPrecision(round)}
-    const overallBreedTotal = (gp, gpStatsCount, round) => {return (((Number(geneticPotential) / 10) + highestScore + (Number(gp) / gpStatsCount)) / 3).toPrecision(round)}
+    const breedTotal = (gp, gpStatsCount, round) => {return (((Number(gp) / gpStatsCount) + Number(highestScore)) / 2).toPrecision(round)}
+    const overallBreedTotal = (gp, gpStatsCount, round) => {return (((Number(geneticPotential) / 10) + Number(highestScore) + (Number(gp) / gpStatsCount)) / 3).toPrecision(round)}
     const highScores = (num, round) => {if (num == '') {return num} else {return Number.parseFloat(num).toPrecision(round)}}
     const prettyConformationStat = (stat) => {
         const split = stat.toUpperCase().split('_')
