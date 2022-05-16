@@ -1,7 +1,7 @@
 {
     "name": "Realtools",
     "description": "The mini version of Realtools.",
-    "version": "2.2.1",
+    "version": "2.2.1.0",
     "manifest_version": 3,
     "permissions": ["storage"],
     "action": {
