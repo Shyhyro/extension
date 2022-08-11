@@ -1,6 +1,6 @@
 const hrUrlRegex = /^https:\/\/(v2\.|www\.)?horsereality\.com\/horses\/(\d{1,10})\/.*/;
 const realtoolsDomain = 'https://realtools.shay.cat';
-const realtoolsAPI = 'https://rt-api.shay.cat/v2';
+const realtoolsAPI = 'https://realtools.shay.cat/api/v2';
 const storage = {};
 
 function dissectUrl(url) {

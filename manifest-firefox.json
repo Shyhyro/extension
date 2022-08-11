@@ -1,9 +1,9 @@
 {
     "name": "Realtools",
     "description": "The mini version of Realtools.",
-    "version": "2.2.1.0",
+    "version": "2.3.0",
     "manifest_version": 2,
-    "permissions": ["storage", "*://*.horsereality.com/horses/*", "https://rt-api.shay.cat/*"],
+    "permissions": ["storage", "*://*.horsereality.com/horses/*", "https://realtools.shay.cat/api/*"],
     "browser_action": {
         "default_popup": "popout.html",
         "default_icon": {

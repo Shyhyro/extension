@@ -1,7 +1,7 @@
 {
     "name": "Realtools",
     "description": "The mini version of Realtools.",
-    "version": "2.2.1.0",
+    "version": "2.3.0",
     "manifest_version": 3,
     "permissions": ["storage"],
     "action": {
@@ -19,11 +19,11 @@
         "48": "/images/48.png",
         "128": "/images/128.png"
     },
-    "host_permissions": ["*://*.horsereality.com/horses/*"],
     "content_scripts": [
         {
             "matches": ["*://*.horsereality.com/horses/*"],
             "js": ["browser-polyfill.js", "insert-css.js", "calc.js", "merge.js", "id-display.js"]
         }
-    ]
+    ],
+    "host_permissions": ["*://*.horsereality.com/horses/*"]
 }
