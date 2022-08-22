@@ -39,9 +39,10 @@ button.yellow[disabled], input[type=submit].yellow[disabled] {background: gray;c
 `
 
 function main() {
-    const style = document.createElement('style');
-    style.id = 'realtools-custom-style';
-    style.appendChild(document.createTextNode(css));
-    document.getElementsByTagName("head")[0].appendChild(style);
+    const style = document.createElement('style')
+    style.id = 'realtools-custom-style'
+    style.appendChild(document.createTextNode(css))
+    document.getElementsByTagName("head")[0].appendChild(style)
 }
-main();
+
+main()

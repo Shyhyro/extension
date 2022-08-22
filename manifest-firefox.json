@@ -3,7 +3,7 @@
     "description": "The mini version of Realtools.",
     "version": "2.3.0",
     "manifest_version": 2,
-    "permissions": ["storage", "*://*.horsereality.com/horses/*", "https://realtools.shay.cat/*"],
+    "permissions": ["storage", "https://*.horsereality.com/horses/*", "https://realtools.shay.cat/*"],
     "browser_action": {
         "default_popup": "popout.html",
         "default_icon": {
@@ -21,13 +21,22 @@
     },
     "content_scripts": [
         {
-            "matches": ["*://*.horsereality.com/horses/*"],
+            "matches": ["https://*.horsereality.com/horses/*"],
             "js": [
                 "browser-polyfill.js",
-                "site-hr/insert-css.js",
-                "site-hr/calc.js",
-                "site-hr/merge.js",
-                "site-hr/id-display.js"
+                "constants.js",
+                "site-hr/css.js",
+                "site-hr/utils.js",
+                "site-hr/calculator.js",
+                "site-hr/buttons.js",
+                "site-hr/layers.js"
+            ]
+        },
+        {
+            "matches": ["https://realtools.shay.cat/*"],
+            "js": [
+                "browser-polyfill.js",
+                "constants.js"
             ]
         }
     ],

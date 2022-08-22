@@ -93,7 +93,6 @@ let highestScore = null;
 let lowestResult = null;
 let highestResult = null;
 let geneticPotential = null;
-let breed = '';
 let rangeAmount = 6.928;
 const confScores = {
     dressage: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0},
@@ -202,16 +201,13 @@ function setCookie(cookie) {
 }
 
 async function getTabContent(tabName) {
-    const formData = new FormData();
-    formData.append('hid', document.querySelector('#hid').value);
-    formData.append('newtab', tabName);
-
-    const response = await fetch(
-        `${document.location.origin}/ajax/update_horsetab.php`, {
-            method: 'POST',
-            body: formData
-        }
-    );
+    const response = await fetch(constructEndpointUrl('update_horse_tab'), {
+        method: 'POST',
+        body: new URLSearchParams({
+            hid: horse.lifenumber,
+            newtab: tabName,
+        })
+    })
 
     const returnedContent = await response.text();
     document.getElementById(tabName).innerHTML = returnedContent;
@@ -695,7 +691,7 @@ function formatDataGenerator() {
         return `${has}/${requiredStats.length}`
     }
 
-    if (breed === 'Icelandic Horse') rangeAmount = 6.062
+    if (horse.breed === 'Icelandic Horse') rangeAmount = 6.062
     let lowestScorePlusRange = lowestScore
     if (lowestScore) lowestScorePlusRange += rangeAmount
 
@@ -904,18 +900,16 @@ async function generateTaglineAndName() {
 }
 
 window.addEventListener('load', () => {
-    breed = document.getElementsByClassName('right')[1].innerText;
-    // Prone to breaking if more `right` elements are added that appear before this one
-
-    getInitialTab();
+    initializeHorseProfile()
+    getInitialTab()
 
     // implement our own listener for tab switching
-    const tabs = document.getElementsByClassName('tabclick');
+    const tabs = document.getElementsByClassName('tabclick')
     for (const tab of tabs) {
         tab.addEventListener('click', () => {
             if (currentTab != document.getElementById(tab.lang)) {
-                currentTab = document.getElementById(tab.lang);
-                setCookie({name: 'selected_horse_tab', value: currentTab.id.replace('tab_','').replace('2','')});
+                currentTab = document.getElementById(tab.lang)
+                setCookie({name: 'selected_horse_tab', value: currentTab.id.replace('tab_','').replace('2','')})
             }
         })
     }

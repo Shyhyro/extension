@@ -1,8 +1,3 @@
-const hrUrlRegex = /^https:\/\/(v2\.|www\.)?horsereality\.com\/horses\/(\d{1,10})\/.*/;
-const realtoolsDomain = 'https://realtools.shay.cat';
-const realtoolsAPI = 'https://realtools.shay.cat/api/v2';
-const storage = {};
-
 function dissectUrl(url) {
     const split = url.split('/');
     const randomNum = Math.floor((Math.random() * 10000) + 1);
@@ -20,7 +15,8 @@ function dissectUrl(url) {
     }
 }
 
-function initButtons() {
+
+function showButtons() {
     const mergeButton = document.querySelector('#realtools-merge-button');
     if (mergeButton) return;
 
@@ -94,6 +90,7 @@ function initButtons() {
     createRealtoolsSection();
 }
 
+
 async function mergeImageStorageContainer() {
     const data = await browser.storage.sync.get('realtoolsSettings');
     Object.assign(storage, data.realtoolsSettings);
@@ -102,6 +99,7 @@ async function mergeImageStorageContainer() {
     }
     await mergeImage();
 }
+
 
 async function mergeImage() {
     const pageUrl = window.location.href;
@@ -225,8 +223,4 @@ async function mergeImage() {
     mergeButton.innerText = 'Merged'
 }
 
-if (hrUrlRegex.test(window.location.href)) {
-    window.addEventListener('load', () => {
-        initButtons();
-    })
-}
+window.addEventListener('load', showButtons)

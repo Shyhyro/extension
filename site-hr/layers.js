@@ -1,6 +1,6 @@
-const imgRegex = /^https:\/\/(v2\.|www\.)?horsereality\.(com|nl)\/upload\/[a-z]+\/[a-z]+\/([a-z]+)\/[a-z]+\/([a-z0-9]+)\.png/;
+function showLayers() {
+    if (document.getElementById('realtools-layer-ids-box')) return
 
-function doTheThing() {
     const adultIds = [];
     const adultWhiteIds = [];
     const foalIds = [];
@@ -8,7 +8,7 @@ function doTheThing() {
     const containers = document.getElementsByClassName('horse_photo');
     for (const container of containers) {
         for (const img of container.children) {
-            const match = img.src.match(imgRegex);
+            const match = img.src.match(layerRegex);
             if (match) {
                 if (img.className.indexOf('foal') != -1) {
                     if (img.src.indexOf('whites') != -1) {
@@ -87,15 +87,8 @@ function doTheThing() {
     parent.appendChild(layerIdsBox)
 }
 
-async function init() {
-    const data = await browser.storage.sync.get('realtoolsSettings');
-    Object.assign(storage, data.realtoolsSettings);
-    if (typeof storage.enable_id_display == 'undefined') {
-        storage.enable_id_display = false
-    }
-    if (storage.enable_id_display) {
-        doTheThing();
-    }
-}
 
-init()
+loadStorage().then(() => {
+    if (typeof storage.enable_id_display === 'undefined') storage.enable_id_display = false
+    else if (storage.enable_id_display) showLayers()
+})
