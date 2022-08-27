@@ -64,12 +64,7 @@ function showButtons() {
         lastCell = lastCell[lastCell.length - 1]
         if (!lastCell.innerText) lastCell.innerText = '\u200b'
 
-        const left = document.createElement('div')
-        left.classList = 'left'
-        left.appendChild(document.createTextNode('Realtools'))
-
-        const right = document.createElement('div')
-        right.classList = 'right'
+        const [left, right] = createInfoPair('Realtools', '')
 
         right.appendChild(createMergeLink())
         right.appendChild(document.createTextNode(', '))
@@ -93,7 +88,8 @@ function showButtons() {
         div.appendChild(left)
         div.appendChild(right)
     }
-    createRealtoolsSection();
+
+    createRealtoolsSection()
 }
 
 
