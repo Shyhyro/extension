@@ -67,18 +67,22 @@ function showButtons() {
         const [left, right] = createInfoPair('Realtools', '')
 
         right.appendChild(createMergeLink())
-        right.appendChild(document.createTextNode(', '))
 
-        const hasFoal = !!document.querySelector('.horse_photocon.foal')
-        let n = 'Multi'
-        if (hasFoal) n = 'Multi (mare)'
-        const multiLink = createMultiLink(n)
-        right.appendChild(multiLink)
+        // Future versions of Multi's frontend will accept an array of layer
+        // URLs as a starting point. Until then, these buttons will not be shown.
 
-        if (hasFoal) {
-            right.appendChild(document.createTextNode(', '))
-            right.appendChild(createMultiLink('Multi (foal)', true))
-        }
+        // right.appendChild(document.createTextNode(', '))
+
+        // const hasFoal = !!document.querySelector('.horse_photocon.foal')
+        // let n = 'Multi'
+        // if (hasFoal) n = 'Multi (mare)'
+        // const multiLink = createMultiLink(n)
+        // right.appendChild(multiLink)
+
+        // if (hasFoal) {
+        //     right.appendChild(document.createTextNode(', '))
+        //     right.appendChild(createMultiLink('Multi (foal)', true))
+        // }
 
         if (document.querySelector('.foal')) {
             right.appendChild(document.createTextNode(', '))
