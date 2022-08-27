@@ -4,10 +4,13 @@ const horse = {}
 function initializeHorseProfile(doc = undefined) {
     const d = doc ?? document
     const collected = {
-        lifenumber: Number(d.querySelector('#hid').value),
+        name: d.title.replace(/ - Horse Reality$/, ''),
+        tagline: d.querySelector('.horse_left strong').innerText.trim(),
         sex: d.querySelector('img.icon16').alt,
         adult_layer_keys: [],
         foal_layer_keys: [],
+        looking_at: null,
+        looking_at_foal: false,
     }
 
     let i = 0
@@ -17,8 +20,14 @@ function initializeHorseProfile(doc = undefined) {
         const labelText = label.innerText.toLowerCase().replace(/ /g, '_')
         if (pairs[nextIndex] && labelText != 'lifenumber') {
             collected[labelText] = pairs[nextIndex].innerText
+        } else if (labelText === 'lifenumber') {
+            collected.lifenumber = Number(pairs[nextIndex].innerText.replace('#', ''))
         }
         i += 2
+    }
+
+    if (d.querySelector('#hid')) {
+        collected.lifenumber = Number(d.querySelector('#hid').value)
     }
 
     const containers = d.getElementsByClassName('horse_photo');
@@ -40,7 +49,18 @@ function initializeHorseProfile(doc = undefined) {
         }
     }
 
-    Object.assign(horse, collected)
+    if (d.querySelector('.looking_at')) {
+        const lookingAtTarget = d.querySelector('.looking_at').innerText.replace('You\'re currently looking at the ', '')
+        if (['mare', 'foal'].indexOf(lookingAtTarget) != -1) {
+            collected.looking_at = lookingAtTarget
+        }
+        if (lookingAtTarget === 'foal') {
+            collected.looking_at_foal = true
+        }
+    }
+
+    if (doc) return collected
+    else Object.assign(horse, collected)
 }
 
 
