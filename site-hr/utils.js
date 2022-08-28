@@ -54,8 +54,8 @@ function initializeHorseProfile(doc = undefined) {
     }
 
     if (d.querySelector('.looking_at')) {
-        const lookingAtTarget = d.querySelector('.looking_at').innerText.replace('You\'re currently looking at the ', '')
-        if (['mare', 'foal'].indexOf(lookingAtTarget) != -1) {
+        const lookingAtTarget = d.querySelector('.looking_at').innerText.replace('You\'re currently looking at the ', '').trim()
+        if (['dam', 'foal'].indexOf(lookingAtTarget) != -1) {
             collected.looking_at = lookingAtTarget
         }
         if (lookingAtTarget === 'foal') {
