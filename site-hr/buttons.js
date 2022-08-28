@@ -366,15 +366,17 @@ async function predictFoal(button) {
     new_hl.insertAdjacentElement('beforeend', warning)
 
     // add a "powered by" pseudo-tab
-    const tabnav = document.querySelector('.grid_12.tabnav')
-    const tab_a = document.createElement('a')
-    tab_a.href = `${realtoolsDomain}/vision`
-    tab_a.target = '_blank'
-    const tab = document.createElement('div')
-    tab.classList = 'realtools-powered-tab'
-    tab.appendChild(document.createTextNode('Prediction Powered by Realvision'))
-    tab_a.appendChild(tab)
-    tabnav.appendChild(tab_a)
+    if (!document.querySelector('.realtools-powered-tab')) {
+        const tabnav = document.querySelector('.grid_12.tabnav')
+        const tab_a = document.createElement('a')
+        tab_a.href = `${realtoolsDomain}/vision`
+        tab_a.target = '_blank'
+        const tab = document.createElement('div')
+        tab.classList = 'realtools-powered-tab'
+        tab.appendChild(document.createTextNode('Prediction Powered by Realvision'))
+        tab_a.appendChild(tab)
+        tabnav.appendChild(tab_a)
+    }
 }
 
 
