@@ -5,12 +5,16 @@ function initializeHorseProfile(doc = undefined) {
     const d = doc ?? document
     const collected = {
         name: d.title.replace(/ - Horse Reality$/, ''),
-        tagline: d.querySelector('.horse_left strong').innerText.trim(),
+        tagline: null,
         sex: d.querySelector('img.icon16').alt,
         adult_layer_keys: [],
         foal_layer_keys: [],
         looking_at: null,
         looking_at_foal: false,
+    }
+
+    if (d.querySelector('.horse_left strong')) {
+        collected.tagline = d.querySelector('.horse_left strong').innerText.trim()
     }
 
     let i = 0
