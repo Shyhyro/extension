@@ -84,7 +84,7 @@ function showButtons() {
         //     right.appendChild(createMultiLink('Multi (foal)', true))
         // }
 
-        if (document.querySelector('.foal')) {
+        if (document.querySelector('.horse_photo .foal')) {
             right.appendChild(document.createTextNode(', '))
             right.appendChild(createVisionLink())
         }
