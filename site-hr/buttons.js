@@ -321,8 +321,8 @@ async function predictFoal(button) {
     const pairs = {
         Lifenumber: `#${horse.lifenumber}`,
         Breed: horse.breed,
-        Phenotype: data.color_info.dilution,
-        Color: data.color_info.color,
+        Genotype: data.color_info.dilution,
+        Phenotype: data.color_info.color,
     }
     for (const label of Object.keys(pairs)) {
         const [left, right] = createInfoPair(label, pairs[label])
