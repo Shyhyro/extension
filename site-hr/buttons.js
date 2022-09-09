@@ -224,7 +224,7 @@ async function mergeImage(mergeButton) {
     if (document.querySelector('.realtools-powered-tab')) {
         // User is merging their prediction
         const tab_a = document.querySelector('.realtools-powered-tab')
-        tab_a.href = realtoolsDomain
+        tab_a.parentElement.href = realtoolsDomain
         tab_a.innerText = 'Merging & Prediction Powered by Realtools'
     } else {
         const tabnav = document.querySelector('.grid_12.tabnav')
