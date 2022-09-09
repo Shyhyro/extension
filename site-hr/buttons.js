@@ -279,6 +279,9 @@ async function predictFoal(button) {
         return
     }
 
+    // store color info to help reduce unnecessary requests
+    horse.color_info = data.color_info
+
     // replace images with prediction
     if (d.querySelector('.horse_photocon.mom')) d.querySelector('.horse_photocon.mom').remove()
     if (d.querySelector('.horse_photocon.foal')) d.querySelector('.horse_photocon.foal').classList.remove('foal')

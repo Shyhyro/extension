@@ -1,4 +1,4 @@
-const horse = {}
+const horse = { color_info: null }
 
 
 function initializeHorseProfile(doc = undefined) {

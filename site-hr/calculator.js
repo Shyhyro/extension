@@ -551,21 +551,41 @@ async function preloadTabs() {
         tagline();
         name();
 
-        if (storage.show_debug_options === true) {
-            // Holds the update button
-            const container = document.querySelector('.update-horseinfo').parentNode
+        // Holds the update button
+        const container = document.querySelector('.update-horseinfo').parentNode
 
-            const debugButton = document.createElement('button')
-            debugButton.innerText = 'Print values'
-            debugButton.onclick = () => {
+        // Color info button so that it isn't kept to the genetics tab
+        if (!horse.color_info) {
+            const button = document.createElement('button')
+            button.innerText = 'Fetch color info'
+            button.onclick = async () => {
+                const data = await getHorseColor()
+                if (!data) return
+
+                button.innerText = 'Color info fetched!'
+                button.disabled = true
+            }
+            button.classList = 'dark'
+            button.form = null
+            button.style.marginLeft = '4px'
+
+            container.appendChild(button)
+        }
+
+        // Debug button
+        if (storage.show_debug_options === true) {
+            const button = document.createElement('button')
+            button.innerText = 'Print values'
+            button.onclick = () => {
                 console.log(formattedStrings)
                 console.log(formatDataGenerator())
+                console.log(horse)
             }
-            debugButton.classList = 'dark'
-            debugButton.form = null
-            debugButton.style = 'margin-left: 4px;'
+            button.classList = 'dark'
+            button.form = null
+            button.style.marginLeft = '4px'
 
-            container.appendChild(debugButton)
+            container.appendChild(button)
         }
     }
 
@@ -636,6 +656,35 @@ function getSex() {
         }
     }
     return '?'
+}
+
+async function getHorseColor() {
+    if (horse.color_info) return horse.color_info
+
+    let layerKeys = []
+    if (horse.looking_at === 'dam') layerKeys = horse.adult_layer_keys
+    else if (horse.looking_at === 'foal') layerKeys = horse.foal_layer_keys
+    else layerKeys = horse.adult_layer_keys.length ? horse.adult_layer_keys : horse.foal_layer_keys
+
+    if (!layerKeys.length) {
+        // horse profile has not been initialized
+        return
+    }
+
+    const url = new URL(`${realtoolsAPI}/color`)
+    url.searchParams.set('breed', horse.breed)
+    layerKeys.forEach(key => { url.searchParams.append('layer', key) })
+    const response = await fetch(url, { method: 'GET' })
+    const data = await response.json()
+
+    // error-from-server handling
+    if (!response.ok) {
+        alert(`Realtools error: ${data.message}`);
+        return
+    }
+
+    horse.color_info = data
+    return data
 }
 
 function formatDataGenerator() {
@@ -878,8 +927,6 @@ async function generateTaglineAndName() {
 
     storage.nameFormats = storage.nameFormats || {default: '{ln}'}
     storage.taglineFormats = storage.taglineFormats || {default: '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P'}
-    //storage.nameFormats.default = storage.nameFormats.default || '{ln}'
-    //storage.taglineFormats.default = storage.taglineFormats.default || '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P'
 
     const formattedNames = {}
     const formattedTaglines = {}
