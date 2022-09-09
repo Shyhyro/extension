@@ -293,15 +293,57 @@ async function predictFoal(button) {
     }
 
     // replace the infobox
+    const hl_container = d.createElement('div')
+    hl_container.id = 'realtools-info-box-container'
+    hl_container.style.paddingTop = '20px'
+
     const horse_left = d.querySelector('.horse_left')
     const new_hl = horse_left.cloneNode(true)
     // We want to keep this element so further calls to initializeHorseProfile
     // by other functions will still work correctly
     horse_left.style.display = 'none'
     // We want it to be after the first horse_left
-    horse_left.insertAdjacentElement('afterend', new_hl)
+    hl_container.appendChild(new_hl)
+    horse_left.insertAdjacentElement('afterend', hl_container)
 
-    // new_hl.dataset.generator = 'realtools'
+    new_hl.style.position = 'unset'
+    new_hl.style.marginTop = '0'
+    new_hl.style.marginBottom = '10px'
+
+    // share url box
+    const share_hl = new_hl.cloneNode()
+    share_hl.id = 'realtools-share-box'
+    share_hl.style.display = 'flex'
+
+    const shareUrl = new URL(`${realtoolsDomain}/vision`)
+    shareUrl.searchParams.set('b', horse.breed)
+    shareUrl.searchParams.set('s', horse.sex)
+    for (const layerKey of horse.foal_layer_keys) {
+        shareUrl.searchParams.append('layer', layerKey)
+    }
+    const shareInput = d.createElement('input')
+    shareInput.value = shareUrl.toString()
+    shareInput.readOnly = true
+    shareInput.style.width = '100%'
+    shareInput.onclick = () => {shareInput.select()}
+    share_hl.appendChild(shareInput)
+
+    const copyButton = d.createElement('button')
+    copyButton.classList.add('yellow')
+    copyButton.style.marginLeft = '5px'
+    copyButton.innerText = 'Copy'
+    copyButton.onclick = () => {
+        copyText(shareUrl.toString())
+        copyButton.innerText = 'Copied'
+        setTimeout(() => {
+            copyButton.innerText = 'Copy'
+        }, 2200)
+    }
+    share_hl.appendChild(copyButton)
+
+    hl_container.appendChild(share_hl)
+
+    // new data for info box
     new_hl.id = 'realtools-info-box'
     if (horse.lifenumber != horse.lifenumber) {
         // We fetched a foal page
