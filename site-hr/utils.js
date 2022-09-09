@@ -34,10 +34,10 @@ function initializeHorseProfile(doc = undefined) {
         collected.lifenumber = Number(d.querySelector('#hid').value)
     }
 
-    const containers = d.getElementsByClassName('horse_photo');
+    const containers = d.querySelectorAll('.horse_photo')
     for (const container of containers) {
         for (const img of container.children) {
-            const match = img.src.match(layerRegex);
+            const match = img.src.match(layerRegex)
             if (!match) continue
 
             const keyified = (
