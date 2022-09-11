@@ -158,3 +158,10 @@ function constructEndpointUrl(endpoint) {
     const path = hrAjaxEndpoints[endpoint] ? `ajax/${hrAjaxEndpoints[endpoint]}.php` : hrFormEndpoints[endpoint]
     return `${document.location.origin}/${path}`
 }
+
+
+const noteStrings = {
+    duplicate_color_found: 'This color shares images with other base colors. Test your horse to see if it is black (E_ aa), bay (E_ A_), or red-based (ee __).',
+    white_layer_unmatched: 'This horse has white layers, but we do not recognize them. Check to see if this color info is correct.',
+    shared_genotype: 'This color shares images with another genotype. If this is your horse, test it to see which genes it does or does not carry.',
+}

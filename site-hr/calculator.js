@@ -360,8 +360,13 @@ async function preloadTabs() {
         liGenotype.id = 'realtools-genetics-genotype'
         liGenotype.style.float = 'unset'
         liGenotype.innerText = 'Genotype: ...'
+        const liNotes = doc.createElement('li')
+        liNotes.id = 'realtools-genetics-notes'
+        liNotes.style.float = 'unset'
+        liNotes.innerText = 'Notes: ...'
         boxBody.children[0].appendChild(liPhenotype)
         boxBody.children[0].appendChild(liGenotype)
+        boxBody.children[0].appendChild(liNotes)
 
         box.appendChild(boxBody)
         doc.getElementsByClassName('grid_6 genetics')[1].insertAdjacentElement('afterend', box)
@@ -374,10 +379,16 @@ async function preloadTabs() {
             const colorInfo = await getHorseColor()
             if (!colorInfo) return
             const liPhenotype = document.querySelector('#realtools-genetics-phenotype'),
-                  liGenotype = document.querySelector('#realtools-genetics-genotype')
+                  liGenotype = document.querySelector('#realtools-genetics-genotype'),
+                  liNotes = document.querySelector('#realtools-genetics-notes')
 
             liPhenotype.innerText = `Phenotype: ${colorInfo.color}`
             liGenotype.innerText = `Genotype: ${colorInfo.dilution}`
+            if (colorInfo.notes && colorInfo.notes.length) {
+                liNotes.innerText = `Notes: ${colorInfo.notes.map(note => noteStrings[note] ?? note).join('; ')}`
+            } else {
+                liNotes.innerText = `Notes: none`
+            }
         }
     }
 
