@@ -218,37 +218,37 @@ async function getTabContent(tabName) {
 let geneticsTabDoc = null;
 async function preloadTabs() {
     async function genetics() {
-        const tab = document.getElementById('tab_genetics2');
+        const tab = document.getElementById('tab_genetics2')
         doc = geneticsTabDoc
         if (tab != currentTab) {
             // make sure there's no weird overlap
             if (tab == currentTab) tab.style.display == 'block'
             else tab.style.display = tab.style.display || 'none'
         }
-        conformationParagraphs = doc.getElementsByClassName('curly-quotes')[0].innerText.trim().toLowerCase();
+        conformationParagraphs = doc.getElementsByClassName('curly-quotes')[0].innerText.trim().toLowerCase()
 
         // gp
-        const geneticPotentialTable = doc.getElementsByClassName('grid_6 genetics')[1].children[1];
-        geneticPotential = doc.getElementsByClassName('grid_6 genetics')[1].children[0].children[0].innerText.replace('GP total: ','');
-        Object.assign(gpTraits, parseTableColumn(geneticPotentialTable.children[0], {makeNumber: true}));
-        Object.assign(gpTraits, parseTableColumn(geneticPotentialTable.children[1], {makeNumber: true}));
+        const geneticPotentialTable = doc.getElementsByClassName('grid_6 genetics')[1].children[1]
+        geneticPotential = doc.getElementsByClassName('grid_6 genetics')[1].children[0].children[0].innerText.replace('GP total: ','')
+        Object.assign(gpTraits, parseTableColumn(geneticPotentialTable.children[0], {makeNumber: true}))
+        Object.assign(gpTraits, parseTableColumn(geneticPotentialTable.children[1], {makeNumber: true}))
         gpResults = [
-            {trait: 'Dressage', value: gpTraits.agility + gpTraits.balance + gpTraits.strength},
-            {trait: 'Driving', value: gpTraits.agility + gpTraits.pulling_power + gpTraits.speed + gpTraits.stamina + gpTraits.strength},
-            {trait: 'Endurance', value: gpTraits.speed + gpTraits.stamina + gpTraits.strength + gpTraits.surefootedness},
-            {trait: 'Eventing', value: gpTraits.balance + gpTraits.bascule + gpTraits.speed + gpTraits.strength + gpTraits.surefootedness},
-            {trait: 'Flat Racing', value: gpTraits.acceleration + gpTraits.speed + gpTraits.sprint + gpTraits.stamina},
-            {trait: 'Show Jumping', value: gpTraits.acceleration + gpTraits.agility + gpTraits.bascule + gpTraits.sprint + gpTraits.strength},
-            {trait: 'Western Reining', value: gpTraits.acceleration + gpTraits.agility + gpTraits.balance + gpTraits.surefootedness}
-        ];
+            { trait: 'Dressage', value: gpTraits.agility + gpTraits.balance + gpTraits.strength },
+            { trait: 'Driving', value: gpTraits.agility + gpTraits.pulling_power + gpTraits.speed + gpTraits.stamina + gpTraits.strength },
+            { trait: 'Endurance', value: gpTraits.speed + gpTraits.stamina + gpTraits.strength + gpTraits.surefootedness },
+            { trait: 'Eventing', value: gpTraits.balance + gpTraits.bascule + gpTraits.speed + gpTraits.strength + gpTraits.surefootedness },
+            { trait: 'Flat Racing', value: gpTraits.acceleration + gpTraits.speed + gpTraits.sprint + gpTraits.stamina },
+            { trait: 'Show Jumping', value: gpTraits.acceleration + gpTraits.agility + gpTraits.bascule + gpTraits.sprint + gpTraits.strength },
+            { trait: 'Western Reining', value: gpTraits.acceleration + gpTraits.agility + gpTraits.balance + gpTraits.surefootedness },
+        ]
 
         // create the third column
-        const thirdColumn = doc.createElement('div');
-        thirdColumn.classList = ['right'];
-        thirdColumn.style.width = '40%';
+        const thirdColumn = doc.createElement('div')
+        thirdColumn.classList = ['right']
+        thirdColumn.style.width = '40%'
 
         for (const calculated of gpResults) {
-            const traitNameUsable = calculated.trait.toLowerCase().replace(' ', '_');
+            const traitNameUsable = calculated.trait.toLowerCase().replace(' ', '_')
             // averages
             let divideAmount = 1
             switch (traitNameUsable) {
@@ -313,27 +313,72 @@ async function preloadTabs() {
                 const rawValue = (0.75 * confScores[scoreType].average) + (0.25 * confScores[scoreType].conformation);
                 confScores[scoreType].percentage = Number.parseFloat(rawValue).toPrecision(4);
             }
-            
+
             // third column
-            const rowKey = doc.createElement('div');
-            rowKey.classList = ['genetic_potential realtools-tablekey'];
-            rowKey.innerText = calculated.trait;
+            const rowKey = doc.createElement('div')
+            rowKey.classList = ['genetic_potential realtools-tablekey']
+            rowKey.innerText = calculated.trait
 
-            const rowValue = doc.createElement('div');
-            rowValue.classList = ['genetic_stats'];
-            rowValue.innerText = `${calculated.value} (${confScores[traitNameUsable].percentage})`;
+            const rowValue = doc.createElement('div')
+            rowValue.classList = ['genetic_stats']
+            rowValue.innerText = `${calculated.value} (${confScores[traitNameUsable].percentage})`
 
-            thirdColumn.appendChild(rowKey);
-            thirdColumn.appendChild(rowValue);
+            thirdColumn.appendChild(rowKey)
+            thirdColumn.appendChild(rowValue)
         }
         // style existing columns
-        geneticPotentialTable.children[0].style.width = '30%';
-        geneticPotentialTable.children[1].style.width = '30%';
-        geneticPotentialTable.children[1].classList = ['left'];
+        geneticPotentialTable.children[0].style.width = '30%'
+        geneticPotentialTable.children[1].style.width = '30%'
+        geneticPotentialTable.children[1].classList = ['left']
         // add the third column
         geneticPotentialTable.appendChild(thirdColumn)
 
-        tab.innerHTML = doc.children[0].innerHTML;
+        // realtools colors box
+        const box = doc.createElement('div')
+        box.className = 'grid_6 genetics'
+        const titleBar = doc.createElement('div')
+        titleBar.className = 'top'
+        titleBar.innerText = 'Realtools'
+        const infoButton = doc.createElement('button')
+        infoButton.id = 'realtools-reveal-color-button'
+        infoButton.className = 'yellow right'
+        infoButton.innerText = 'Reveal color info'
+        titleBar.appendChild(infoButton)
+        box.appendChild(titleBar)
+
+        const boxBody = doc.createElement('div')
+        boxBody.className = 'genetic_table_row'
+        boxBody.style.width = 'unset'
+        boxBody.style.padding = '10px 15px'
+
+        boxBody.appendChild(doc.createElement('ul'))
+        const liPhenotype = doc.createElement('li')
+        liPhenotype.id = 'realtools-genetics-phenotype'
+        liPhenotype.style.float = 'unset'
+        liPhenotype.innerText = 'Phenotype: ...'
+        const liGenotype = doc.createElement('li')
+        liGenotype.id = 'realtools-genetics-genotype'
+        liGenotype.style.float = 'unset'
+        liGenotype.innerText = 'Genotype: ...'
+        boxBody.children[0].appendChild(liPhenotype)
+        boxBody.children[0].appendChild(liGenotype)
+
+        box.appendChild(boxBody)
+        doc.getElementsByClassName('grid_6 genetics')[1].insertAdjacentElement('afterend', box)
+
+        // fill data
+        tab.innerHTML = doc.children[0].innerHTML
+
+        // assign callback to now-rendered element
+        document.querySelector('#realtools-reveal-color-button').onclick = async () => {
+            const colorInfo = await getHorseColor()
+            if (!colorInfo) return
+            const liPhenotype = document.querySelector('#realtools-genetics-phenotype'),
+                  liGenotype = document.querySelector('#realtools-genetics-genotype')
+
+            liPhenotype.innerText = `Phenotype: ${colorInfo.color}`
+            liGenotype.innerText = `Genotype: ${colorInfo.dilution}`
+        }
     }
 
     async function achievements() {
