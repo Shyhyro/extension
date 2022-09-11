@@ -377,7 +377,10 @@ async function preloadTabs() {
         // assign callback to now-rendered element
         document.querySelector('#realtools-reveal-color-button').onclick = async () => {
             const colorInfo = await getHorseColor()
-            if (!colorInfo) return
+            if (!colorInfo) {
+                alert('Realtools error: Could not get color info for this horse! Please use the contact methods on our website (https://realtools.shay.cat) to send this horse to us!')
+                return
+            }
             const liPhenotype = document.querySelector('#realtools-genetics-phenotype'),
                   liGenotype = document.querySelector('#realtools-genetics-genotype'),
                   liNotes = document.querySelector('#realtools-genetics-notes')
