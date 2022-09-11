@@ -84,120 +84,120 @@ const adviceSentences = {
         {bracket: 'poor', sentence: /see those skimpy legs\? no feathering at all/}
     ]
 }
-let conformationParagraphs = '';
-let qualityResults = {very_good_plus: 0, very_good: 0, very_good_minus: 0, good_plus: 0, good: 0, average: 0, below_average: 0, poor: 0};
-let qualityStats = {};
-let confTraits = {};
-let lowestScore = null;
-let highestScore = null;
-let lowestResult = null;
-let highestResult = null;
-let geneticPotential = null;
-let rangeAmount = 6.928;
+let conformationParagraphs = ''
+let qualityResults = { very_good_plus: 0, very_good: 0, very_good_minus: 0, good_plus: 0, good: 0, average: 0, below_average: 0, poor: 0 }
+let qualityStats = {}
+let confTraits = {}
+let lowestScore = null
+let highestScore = null
+let lowestResult = null
+let highestResult = null
+let geneticPotential = null
+let rangeAmount = 6.928
 const confScores = {
-    dressage: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0},
-    driving: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0},
-    endurance: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0},
-    eventing: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0},
-    flat_racing: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0},
-    show_jumping: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0},
-    western_reining: {percentage: 0, average: 0, conformation: 0, max: 0, min: 0}
+    dressage: { percentage: 0, average: 0, conformation: 0, max: 0, min: 0 },
+    driving: { percentage: 0, average: 0, conformation: 0, max: 0, min: 0 },
+    endurance: { percentage: 0, average: 0, conformation: 0, max: 0, min: 0 },
+    eventing: { percentage: 0, average: 0, conformation: 0, max: 0, min: 0 },
+    flat_racing: { percentage: 0, average: 0, conformation: 0, max: 0, min: 0 },
+    show_jumping: { percentage: 0, average: 0, conformation: 0, max: 0, min: 0 },
+    western_reining: { percentage: 0, average: 0, conformation: 0, max: 0, min: 0 },
 }
-const gpTraits = {};
-let gpResults = [];
-let horseIsFoal = false;
+const gpTraits = {}
+let gpResults = []
+let horseIsFoal = false
 const calculatedValues = {
     quality: false
 }
 const qualityMap = {
-    poor: {max: 39, min: 1},
-    below_average: {max: 59, min: 40},
-    average: {max: 69, min: 60},
-    good: {max: 79, min: 70},
-    good_plus: {max: 84, min: 80},
-    very_good_minus: {max: 89, min: 85},
-    very_good: {max: 100, min: 85},
-    very_good_plus: {max: 100, min: 91}
+    poor: { max: 39, min: 1 },
+    below_average: { max: 59, min: 40 },
+    average: { max: 69, min: 60 },
+    good: { max: 79, min: 70 },
+    good_plus: { max: 84, min: 80 },
+    very_good_minus: { max: 89, min: 85 },
+    very_good: { max: 100, min: 85 },
+    very_good_plus: { max: 100, min: 91 },
 }
 
 const traitsGenTraitsMap = {
-    dressage: ['walk', 'trot', 'canter', 'posture'],
-    driving: ['trot', 'back', 'shoulders', 'hindquarters'],
-    endurance: ['walk', 'trot', 'canter', 'head', 'neck', 'back'],
-    eventing: ['walk',  'trot', 'canter', 'posture', 'head', 'neck'],
-    flat_racing: ['gallop', 'posture', 'neck', 'back', 'shoulders', 'frontlegs', 'hindquarters'],
-    show_jumping: ['canter', 'back', 'shoulders', 'frontlegs', 'hindquarters'],
-    western_reining: ['head', 'neck', 'shoulders', 'frontlegs', 'hindquarters']
+    dressage: [ 'walk', 'trot', 'canter', 'posture' ],
+    driving: [ 'trot', 'back', 'shoulders', 'hindquarters' ],
+    endurance: [ 'walk', 'trot', 'canter', 'head', 'neck', 'back' ],
+    eventing: [ 'walk',  'trot', 'canter', 'posture', 'head', 'neck' ],
+    flat_racing: [ 'gallop', 'posture', 'neck', 'back', 'shoulders', 'frontlegs', 'hindquarters' ],
+    show_jumping: [ 'canter', 'back', 'shoulders', 'frontlegs', 'hindquarters' ],
+    western_reining: [ 'head', 'neck', 'shoulders', 'frontlegs', 'hindquarters' ],
 }
 
 function parseTableColumn(column, props={}) {
-    const keyClass = props.keyClass || 'genetic_potential';
-    const makeNumber = props.makeNumber || false;
-    let currentIndex = 0;
-    const result = {};
+    const keyClass = props.keyClass || 'genetic_potential'
+    const makeNumber = props.makeNumber || false
+    let currentIndex = 0
+    const result = {}
     for (const element of column.children) {
         if (element.classList.contains(keyClass)) {
-            const value = column.children[currentIndex+1].innerText;
+            const value = column.children[currentIndex+1].innerText
             if (makeNumber) {
-                result[element.innerText.trim().toLowerCase().replace(' ', '_')] = Number(value.trim());
+                result[element.innerText.trim().toLowerCase().replace(' ', '_')] = Number(value.trim())
             } else {
-                result[element.innerText.trim().toLowerCase().replace(' ', '_')] = value.trim();
+                result[element.innerText.trim().toLowerCase().replace(' ', '_')] = value.trim()
             }
         }
-        currentIndex += 1;
+        currentIndex += 1
     }
     return result
 }
 
 function replaceInColumn(column, key, newValue, props={}) {
-    const keyClass = props.keyClass || 'genetic_potential';
-    let currentIndex = 0;
-    let replacedElements = [];
+    const keyClass = props.keyClass || 'genetic_potential'
+    let currentIndex = 0
+    let replacedElements = []
     for (const element of column.children) {
         if (element.classList.contains(keyClass) & element.innerText.trim() == key.trim()) {
-            column.children[currentIndex+1].innerHTML = newValue;
-            replacedElements.push(element);
+            column.children[currentIndex+1].innerHTML = newValue
+            replacedElements.push(element)
         }
-        currentIndex += 1;
+        currentIndex += 1
     }
     return replacedElements
 }
 
 String.prototype.format = function() {
-    "use strict";
-    var str = this.toString();
+    'use strict'
+    var str = this.toString()
     if (arguments.length) {
-        var t = typeof arguments[0];
-        var key;
-        var args = ("string" === t || "number" === t) ?
+        var t = typeof arguments[0]
+        var key
+        var args = ('string' === t || 'number' === t) ?
             Array.prototype.slice.call(arguments)
-            : arguments[0];
+            : arguments[0]
 
         for (key in args) {
-            str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
+            str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key])
         }
     }
 
-    return str;
+    return str
 }
 
-let currentTab = null;
-let initialTabCookie = null;
+let currentTab = null
+let initialTabCookie = null
 
 function getCookie(cookieName) {
-    const name = cookieName + "=";
-    const ca = document.cookie.split(';');
+    const name = cookieName + '='
+    const ca = document.cookie.split(';')
     for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
+        let c = ca[i].trim()
         if ((c.indexOf(name)) == 0) {
-            return c.substr(name.length);
+            return c.substr(name.length)
         }
     }
     return null
 }
 
 function setCookie(cookie) {
-    document.cookie = `${cookie.name}=${cookie.value}; samesite=lax; path=/`;
+    document.cookie = `${cookie.name}=${cookie.value}; samesite=lax; path=/`
 }
 
 async function getTabContent(tabName) {
@@ -209,13 +209,13 @@ async function getTabContent(tabName) {
         })
     })
 
-    const returnedContent = await response.text();
-    document.getElementById(tabName).innerHTML = returnedContent;
-    const parser = new DOMParser();
-    return parser.parseFromString(returnedContent, 'text/html');
+    const returnedContent = await response.text()
+    document.getElementById(tabName).innerHTML = returnedContent
+    const parser = new DOMParser()
+    return parser.parseFromString(returnedContent, 'text/html')
 }
 
-let geneticsTabDoc = null;
+let geneticsTabDoc = null
 async function preloadTabs() {
     async function genetics() {
         const tab = document.getElementById('tab_genetics2')
@@ -276,42 +276,41 @@ async function preloadTabs() {
                 default:
                     break
             }
-            confScores[traitNameUsable].value = calculated.value;
-            confScores[traitNameUsable].average = calculated.value / divideAmount;
+            confScores[traitNameUsable].value = calculated.value
+            confScores[traitNameUsable].average = calculated.value / divideAmount
 
             const acceptableTraits = traitsGenTraitsMap[traitNameUsable];
             for (const type of Object.keys(qualityStats)) {
-                const value = qualityStats[type];
+                const value = qualityStats[type]
 
                 if (acceptableTraits.indexOf(type) != -1) {
-                    confScores[traitNameUsable].max += qualityMap[value].max;
-                    confScores[traitNameUsable].min += qualityMap[value].min;
+                    confScores[traitNameUsable].max += qualityMap[value].max
+                    confScores[traitNameUsable].min += qualityMap[value].min
                 }
             }
 
             for (const scoreType of Object.keys(confScores)) {
                 // conf average
-                const values = confScores[scoreType];
-
-                let min = values.min;
+                const values = confScores[scoreType]
+                let min = values.min
 
                 // the spreadsheet does this for some reason, so we do too
                 if (scoreType != 'dressage') {
-                    const acceptableTraits = traitsGenTraitsMap[scoreType];
+                    const acceptableTraits = traitsGenTraitsMap[scoreType]
                     if (qualityStats.shoulders == 'good_plus' & acceptableTraits.indexOf('shoulders') != -1) {
-                        min -= 4;
+                        min -= 4
                     }
                     if (qualityStats.neck == 'good_plus' & acceptableTraits.indexOf('neck') != -1) {
-                        min -= 4;
+                        min -= 4
                     }
                 }
 
-                const divideAmount = traitsGenTraitsMap[scoreType].length * 2;
-                confScores[scoreType].conformation = (values.max + min) / divideAmount;
+                const divideAmount = traitsGenTraitsMap[scoreType].length * 2
+                confScores[scoreType].conformation = (values.max + min) / divideAmount
                 
                 // percentage
-                const rawValue = (0.75 * confScores[scoreType].average) + (0.25 * confScores[scoreType].conformation);
-                confScores[scoreType].percentage = Number.parseFloat(rawValue).toPrecision(4);
+                const rawValue = (0.75 * confScores[scoreType].average) + (0.25 * confScores[scoreType].conformation)
+                confScores[scoreType].percentage = Number.parseFloat(rawValue).toPrecision(4)
             }
 
             // third column
@@ -402,29 +401,29 @@ async function preloadTabs() {
         if (tab == currentTab) tab.style.display == 'block'
         else tab.style.display = tab.style.display || 'none'
 
-        const doc = await getTabContent('tab_achievements2');
+        const doc = await getTabContent('tab_achievements2')
 
         // load data itself
-        const conformationBox = doc.querySelector('.conformation');
-        const conformationTable = conformationBox.children[1];
-        Object.assign(confTraits, parseTableColumn(conformationTable.children[0]));
-        Object.assign(confTraits, parseTableColumn(conformationTable.children[1]));
+        const conformationBox = doc.querySelector('.conformation')
+        const conformationTable = conformationBox.children[1]
+        Object.assign(confTraits, parseTableColumn(conformationTable.children[0]))
+        Object.assign(confTraits, parseTableColumn(conformationTable.children[1]))
 
         // VG/G+/... counter
         Object.keys(confTraits).forEach((traitName) => {
-            const value = confTraits[traitName];
+            const value = confTraits[traitName]
             if (typeof adviceSentences[traitName] == 'undefined') {
-                qualityResults[value.toLowerCase().replace(' ', '_')] += 1;
+                qualityResults[value.toLowerCase().replace(' ', '_')] += 1
             } else {
                 for (const sentenceItem of adviceSentences[traitName]) {
-                    const match = conformationParagraphs.match(sentenceItem.sentence);
+                    const match = conformationParagraphs.match(sentenceItem.sentence)
                     if (match) {
                         if (value == 'Good' & sentenceItem.bracket == 'excellent') {
                             qualityResults.good_plus += 1;
-                            qualityStats[traitName.toLowerCase()] = 'good_plus';
+                            qualityStats[traitName.toLowerCase()] = 'good_plus'
                         } else {
-                            qualityResults[value.toLowerCase().replace(' ', '_')] += 1;
-                            qualityStats[traitName.toLowerCase()] = value.toLowerCase().replace(' ', '_');//.replace('good+', 'good_plus');
+                            qualityResults[value.toLowerCase().replace(' ', '_')] += 1
+                            qualityStats[traitName.toLowerCase()] = value.toLowerCase().replace(' ', '_')
                         }
                         break
                     }
@@ -433,14 +432,14 @@ async function preloadTabs() {
         });
         // patch neck/shoulders according to the majority of spreadsheet calculators
         if (qualityStats.neck == 'good' & ['very_good', 'good', 'good_plus'].indexOf(qualityStats.shoulders) != -1 & conformationParagraphs.match(adviceSentences.neck[0].sentence)) {
-            qualityResults[qualityStats.neck] -= 1;
-            qualityStats.neck = 'good_plus';
-            qualityResults.good_plus += 1;
+            qualityResults[qualityStats.neck] -= 1
+            qualityStats.neck = 'good_plus'
+            qualityResults.good_plus += 1
         }
         if (qualityStats.shoulders == 'good' & ['very_good', 'good', 'good_plus'].indexOf(qualityStats.neck) != -1 & conformationParagraphs.match(adviceSentences.shoulders[0].sentence)) {
-            qualityResults[qualityStats.shoulders] -= 1;
-            qualityStats.shoulders = 'good_plus';
-            qualityResults.good_plus += 1;
+            qualityResults[qualityStats.shoulders] -= 1
+            qualityStats.shoulders = 'good_plus'
+            qualityResults.good_plus += 1
         }
 
         // compensate for very good plus: neck
@@ -465,90 +464,90 @@ async function preloadTabs() {
         }
 
         Object.keys(qualityStats).forEach((traitNameLower) => {
-            const value = qualityStats[traitNameLower];
+            const value = qualityStats[traitNameLower]
             if (value == 'good_plus') {
-                const traitNameUpper = traitNameLower.charAt(0).toUpperCase() + traitNameLower.slice(1);
-                replaceInColumn(conformationTable.children[0], traitNameUpper, 'Good<span class="realtools-noselect">+</span>');
-                replaceInColumn(conformationTable.children[1], traitNameUpper, 'Good<span class="realtools-noselect">+</span>');
+                const traitNameUpper = traitNameLower.charAt(0).toUpperCase() + traitNameLower.slice(1)
+                replaceInColumn(conformationTable.children[0], traitNameUpper, 'Good<span class="realtools-noselect">+</span>')
+                replaceInColumn(conformationTable.children[1], traitNameUpper, 'Good<span class="realtools-noselect">+</span>')
             }
         })
 
-        let conformationString = 'Conformation - ';
-        if (qualityResults.very_good) conformationString += `<span style="color:#57BB8A">${qualityResults.very_good_minus + qualityResults.very_good + qualityResults.very_good_plus}VG</span> `;
-        if (qualityResults.good_plus) conformationString += `<span style="color:#9BC67B">${qualityResults.good_plus}G+</span> `;
-        if (qualityResults.good) conformationString += `<span style="color:#D5D06F">${qualityResults.good}G</span> `;
-        if (qualityResults.average) conformationString += `<span style="color:#FED467">${qualityResults.average}A</span> `;
-        if (qualityResults.below_average) conformationString += `<span style="color:#EE9A6F">${qualityResults.below_average}BA</span> `;
-        if (qualityResults.poor) conformationString += `<span style="color:#E67C73">${qualityResults.poor}P</span>`;
+        let conformationString = 'Conformation - '
+        if (qualityResults.very_good) conformationString += `<span style="color:#57BB8A">${qualityResults.very_good_minus + qualityResults.very_good + qualityResults.very_good_plus}VG</span> `
+        if (qualityResults.good_plus) conformationString += `<span style="color:#9BC67B">${qualityResults.good_plus}G+</span> `
+        if (qualityResults.good) conformationString += `<span style="color:#D5D06F">${qualityResults.good}G</span> `
+        if (qualityResults.average) conformationString += `<span style="color:#FED467">${qualityResults.average}A</span> `
+        if (qualityResults.below_average) conformationString += `<span style="color:#EE9A6F">${qualityResults.below_average}BA</span> `
+        if (qualityResults.poor) conformationString += `<span style="color:#E67C73">${qualityResults.poor}P</span>`
 
         conformationBox.children[0].innerHTML = conformationString
 
         // min & max show values
-        const scoresBlock = doc.querySelector('.grid_6.half_block');
+        const scoresBlock = doc.querySelector('.grid_6.half_block')
         if (scoresBlock.children.length < 4) {
-            lowestScore = '';
-            highestScore = '';
+            lowestScore = ''
+            highestScore = ''
         } else {
             for (const row of scoresBlock.children) {
                 if (row.classList.contains('row_460')) {
-                    let value = row.children[2].innerText;  // col_90, has image and value
-                    value = Number(value);
-                    if (!lowestScore) lowestScore = value;
-                    if (!highestScore) highestScore = value;
+                    let value = row.children[2].innerText  // col_90, has image and value
+                    value = Number(value)
+                    if (!lowestScore) lowestScore = value
+                    if (!highestScore) highestScore = value
 
-                    if (value < lowestScore) lowestScore = value;
-                    else if (value > highestScore) highestScore = value;
+                    if (value < lowestScore) lowestScore = value
+                    else if (value > highestScore) highestScore = value
                 }
             }
         }
 
         if (lowestScore != '') {
-            const showTitle = scoresBlock.children[0];
-            showTitle.innerHTML = 'Latest 25 show results';
-            showTitle.innerHTML += `<span style="float:right"><span style="color:gray;font-size:0.8em">Visible:</span> ${highestScore} / ${lowestScore}</span>`;
+            const showTitle = scoresBlock.children[0]
+            showTitle.innerHTML = 'Latest 25 show results'
+            showTitle.innerHTML += `<span style="float:right"><span style="color:gray;font-size:0.8em">Visible:</span> ${highestScore} / ${lowestScore}</span>`
         }
 
         // min & max competition values
-        const resultsBlock = doc.getElementsByClassName('half_block')[1];
+        const resultsBlock = doc.getElementsByClassName('half_block')[1]
         if (resultsBlock.children.length < 4) {
-            lowestResult = '';
-            highestResult = '';
+            lowestResult = ''
+            highestResult = ''
         } else {
             for (const row of resultsBlock.children) {
                 if (row.classList.contains('row_460')) {
-                    let value = row.children[2].innerText;  // col_90, has image and value
-                    value = Number(value);
-                    if (!lowestResult) lowestResult = value;
-                    if (!highestResult) highestResult = value;
+                    let value = row.children[2].innerText  // col_90, has image and value
+                    value = Number(value)
+                    if (!lowestResult) lowestResult = value
+                    if (!highestResult) highestResult = value
 
-                    if (value < lowestResult) lowestResult = value;
-                    else if (value > highestResult) highestResult = value;
+                    if (value < lowestResult) lowestResult = value
+                    else if (value > highestResult) highestResult = value
                 }
             }
         }
 
         if (lowestResult != '') {
-            const showTitle = resultsBlock.children[0];
-            showTitle.innerHTML = 'Latest 25 competition results';
-            showTitle.innerHTML += `<span style="float:right"><span style="color:gray;font-size:0.8em">Visible:</span> ${highestResult} / ${lowestResult}</span>`;
+            const showTitle = resultsBlock.children[0]
+            showTitle.innerHTML = 'Latest 25 competition results'
+            showTitle.innerHTML += `<span style="float:right"><span style="color:gray;font-size:0.8em">Visible:</span> ${highestResult} / ${lowestResult}</span>`
         }
 
-        tab.innerHTML = doc.children[0].innerHTML;
+        tab.innerHTML = doc.children[0].innerHTML
     }
 
     async function updates() {
-        const tab = document.getElementById('tab_update2');
-        const doc = await getTabContent('tab_update2');
+        const tab = document.getElementById('tab_update2')
+        const doc = await getTabContent('tab_update2')
         
         // make sure there's no weird overlap
-        if (tab == currentTab) tab.style.display == 'block';
-        else tab.style.display = tab.style.display || 'none';
+        if (tab == currentTab) tab.style.display == 'block'
+        else tab.style.display = tab.style.display || 'none'
 
-        tab.innerHTML = doc.children[0].innerHTML;
+        tab.innerHTML = doc.children[0].innerHTML
 
-        const formattedStrings = await generateTaglineAndName();
+        const formattedStrings = await generateTaglineAndName()
         function tagline() {
-            const taglineInput = document.querySelector('#changetagline');
+            const taglineInput = document.querySelector('#changetagline')
             if (!taglineInput) return
 
             taglineInput.placeholder = formattedStrings.taglines.default
@@ -607,8 +606,8 @@ async function preloadTabs() {
             fillName.form = null
             nameInput.parentNode.appendChild(fillName)
         }
-        tagline();
-        name();
+        tagline()
+        name()
 
         // Holds the update button
         const container = document.querySelector('.update-horseinfo').parentNode
@@ -654,47 +653,47 @@ async function preloadTabs() {
         if (geneticsTab == currentTab) geneticsTab.style.display == 'block'
         else geneticsTab.style.display = geneticsTab.style.display || 'none'
     }
-    geneticsTabDoc = await getTabContent('tab_genetics2');
-    conformationParagraphs = geneticsTabDoc.getElementsByClassName('curly-quotes')[0].innerText.trim().toLowerCase();
-    await achievements();
-    await genetics();
-    await updates();
+    geneticsTabDoc = await getTabContent('tab_genetics2')
+    conformationParagraphs = geneticsTabDoc.getElementsByClassName('curly-quotes')[0].innerText.trim().toLowerCase()
+    await achievements()
+    await genetics()
+    await updates()
 
     // HR sets a cookie whenever you request a new tab, so we reset it
     // here to what we assume was its original value
-    setCookie({name: 'selected_horse_tab', value: initialTabCookie});
+    setCookie({name: 'selected_horse_tab', value: initialTabCookie})
 }
 
 function getInitialTab() {
     const initialTab = document.querySelector('option[selected="selected"]')
     if (initialTab) {
-        const tabDiv = document.getElementById(initialTab.value);
-        currentTab = document.getElementById(tabDiv.lang);
-        initialTabCookie = getCookie('selected_horse_tab');
+        const tabDiv = document.getElementById(initialTab.value)
+        currentTab = document.getElementById(tabDiv.lang)
+        initialTabCookie = getCookie('selected_horse_tab')
     } else {
         return
     }
-    preloadTabs();
+    preloadTabs()
 }
 
 function isFoal() {
-    const looking_at = document.querySelector('.looking_at');
+    const looking_at = document.querySelector('.looking_at')
     if (looking_at && looking_at.classList == 'looking_at') {
         // mare & foal using banner
-        horseIsFoal = looking_at.innerText.indexOf('foal') != -1;
+        horseIsFoal = looking_at.innerText.indexOf('foal') != -1
     } else if (document.querySelector('.horse_photocon.foal') && document.querySelector('.icon16').alt != 'Mare') {
         // mare & foal but banner is not present
-        horseIsFoal = true;
+        horseIsFoal = true
     } else if (document.querySelector('.foal')) {
         // only foal
-        horseIsFoal = true;
+        horseIsFoal = true
     }
     return horseIsFoal
 }
 
 function getSex() {
-    const overall = document.querySelector('.icon16').alt;
-    isFoal();
+    const overall = document.querySelector('.icon16').alt
+    isFoal()
     if (overall == 'Stallion') {
         if (horseIsFoal) {
             return 'C'
@@ -738,7 +737,7 @@ async function getHorseColor() {
 
     // error-from-server handling
     if (!response.ok) {
-        alert(`Realtools error: ${data.message}`);
+        alert(`Realtools error: ${data.message}`)
         return
     }
 
@@ -979,13 +978,11 @@ function formatDataGenerator() {
 
 async function generateTaglineAndName() {
     // get storage
-    const storageData = await browser.storage.sync.get('realtoolsSettings');
+    if (!storage.length) await loadStorage()
+    if (typeof storage.watermark == 'undefined') { storage.watermark = true }
 
-    Object.assign(storage, storageData.realtoolsSettings);
-    if (typeof storage.watermark == 'undefined') {storage.watermark = true}
-
-    storage.nameFormats = storage.nameFormats || {default: '{ln}'}
-    storage.taglineFormats = storage.taglineFormats || {default: '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P'}
+    storage.nameFormats = storage.nameFormats || { default: '{ln}' }
+    storage.taglineFormats = storage.taglineFormats || { default: '{vg}VG {gs}G+ {g}G {a}A {ba}BA {p}P' }
 
     const formattedNames = {}
     const formattedTaglines = {}
